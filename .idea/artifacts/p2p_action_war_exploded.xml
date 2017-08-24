@@ -4,13 +4,13 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="p2p_action" />
+          <element id="module-output" name="p2p_controller" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/p2p_action/target/p2p_action-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/p2p_controller/target/p2p_action-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="p2p_action/web/Web" />
+      <element id="javaee-facet-resources" facet="p2p_controller/web/Web" />
     </root>
   </artifact>
 </component>

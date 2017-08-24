@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/p2p_action" />
+    <file type="web" url="file://$PROJECT_DIR$/p2p_controller" />
     <file type="web" url="file://$PROJECT_DIR$/p2p_home" />
     <file type="web" url="file://$PROJECT_DIR$/p2p_jms" />
     <file type="web" url="file://$PROJECT_DIR$/p2p_management" />
