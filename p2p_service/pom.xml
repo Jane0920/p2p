@@ -11,5 +11,11 @@
     <packaging>jar</packaging>
     <artifactId>p2p_service</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.xyr.p2p</groupId>
+            <artifactId>p2p_dao</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
