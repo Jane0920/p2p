@@ -10,6 +10,7 @@
 
     <context:component-scan base-package="com.xyr" annotation-config="true"/>
 
+    <!-- 注册8个类的实例(RequestMappingHandlerMapping,BeanNameUrlHandlerMapping等) -->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">

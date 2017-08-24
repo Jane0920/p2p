@@ -20,7 +20,7 @@
     <!-- 启用自动扫描 扫描base-package包内被@Repository @Service @Controller的注解类 -->
     <context:component-scan base-package="com.xyr" />
 
-    <!-- 注册8个类的实例(RequestMappingHandlerMapping,BeanNameUrlHandlerMapping等)，启动自动注解驱动 -->
+    <!-- 启动自动注解驱动 -->
     <mvc:annotation-driven />
 
     <!-- 面向切面 -->
