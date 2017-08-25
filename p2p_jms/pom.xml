@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>p2p</artifactId>
@@ -11,5 +11,104 @@
     <packaging>war</packaging>
     <artifactId>p2p_jms</artifactId>
 
+    <properties>
+        <org.springframework.version>3.0.3.RELEASE</org.springframework.version>
+        <org.slf4j.version>1.5.10</org.slf4j.version>
+        <!--   Cargo release associated with the project  -->
+        <myproject.name>p2p_jms</myproject.name>
+        <cargo.project.groupid>${project.groupId}</cargo.project.groupid>
+        <cargo.project.artifactid>p2p_jms</cargo.project.artifactid>
+        <!--  Individually and configured to extract the file to activate profiles   -->
+        <!--<catalina.home>${env.CATLINA_HOME}</catalina.home>--><!--D:\hudson_ci\hudson_dep_tools\Tomcat6.0-->
+        <cargo.tomcat.manager.protocol>http</cargo.tomcat.manager.protocol>
+        <cargo.tomcat.manager.hostname>106.14.149.59</cargo.tomcat.manager.hostname>
+        <cargo.tomcat.manager.port>8080</cargo.tomcat.manager.port>
+        <cargo.tomcat.manager.ajp.port>8009</cargo.tomcat.manager.ajp.port>
+        <cargo.tomcat.manager.username>xyr</cargo.tomcat.manager.username>
+        <cargo.tomcat.manager.password>root</cargo.tomcat.manager.password>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warName>
+                        p2p_jms
+                    </warName>
+                </configuration>
+            </plugin>
+
+            <!--tomcat运行插件通过cargo-maven2-plugin插件配置Tomcat自动发布（cargo:deploy）-->
+            <plugin>
+                <!-- 指定插件名称及版本号 -->
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.15</version>
+                <!-- 插件的Tomcat6.x配置 -->
+                <configuration>
+                    <!--<wait>true</wait> -->  <!--是否说明，操作start、stop等后续操作必须等前面操作完成才能继续 -->
+                    <container><!-- 容器的配置 -->
+                        <containerId>tomcat8x</containerId> <!-- 指定tomcat版本 -->
+                        <type>remote</type> <!-- 指定类型：standalone, installed等 -->
+                    </container>
+                    <configuration> <!-- 具体的配置 -->
+                        <type>runtime</type>  <!-- 类型，existing:存在 -->
+                        <properties> <!-- 配置属性 -->
+                            <!-- 监听端口配置;方便远程调试 -->
+                            <cargo.jvmargs>
+                                -Xdebug
+                                -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+                            </cargo.jvmargs>
+                            <cargo.tomcat.manager.url>http://106.14.149.59:8080/manager</cargo.tomcat.manager.url>
+                            <cargo.remote.username>xyr</cargo.remote.username>
+                            <cargo.remote.password>root</cargo.remote.password>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
+                            <cargo.hostname>106.14.149.59</cargo.hostname>
+                            <cargo.tomcat.ajp.port>8009
+                            </cargo.tomcat.ajp.port>                                   <!-- Tomcat密码 -->
+                        </properties>
+                    </configuration>
+                    <deployables>
+                        <!--  Specified in the deployable to deploy your  webapp -->
+                        <deployable>
+                            <!--  Options, Ping destination address to determine success or failure of the project address released   -->
+                            <!--<pingURL>-->
+                            <!--${cargo.tomcat.manager.protocol}://${cargo.tomcat.manager.hostname}:${cargo.tomcat.manager.port}/${myproject.name}-->
+                            <!--</pingURL>-->
+                            <!--  Options, Ping response time target address  ,  Default 20000 ms   -->
+                            <!--<pingTimeout>300000</pingTimeout>-->
+                            <groupId>${cargo.project.groupid}</groupId>
+                            <artifactId>${cargo.project.artifactid}</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>${myproject.name}</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+
+                </configuration>
+                <executions>
+                    <!-- 执行的动作 -->
+                    <execution>
+                        <id>verify-deployer</id>
+                        <phase>install</phase> <!-- 解析install -->
+                        <goals>
+                            <goal>deployer-redeploy</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>clean-deployer</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>deployer-undeploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
