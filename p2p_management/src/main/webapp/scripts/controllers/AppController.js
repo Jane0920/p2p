@@ -19,6 +19,7 @@ angular.module('AppController', [])
             $scope.errorMsg = '';
 
             $scope.login = function (username, password) {
+                //拼接向服务器发送的数据
                 var str = 'username=' + username + '&password='
                     + password;
                 // alert(username + " " + password);

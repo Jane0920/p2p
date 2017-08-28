@@ -1,7 +1,8 @@
+/**向服务器发送请求的操作*/
 var option = {};
 option.url = {
     'api_admin': '/itcast_p2p_action/admin/',
-    'api_account': '/itcast_p2p_action/account/',
+    'api_account': '/p2p_controller/account/',
     'api_user': '/itcast_p2p_action/user/',
     'api_accountrecord': '/itcast_p2p_action/accountrecord/',
     'api_product': '/itcast_p2p_action/product/',
@@ -24,7 +25,7 @@ angular
                 signIn: function ($str) {
                     alert($str);
                     return $http.post(option.url.api_account + 'login',
-                        $str, option.header);
+                        $str, option.header); //通过post向服务器发送请求
                     // /itcast_p2p_action/account/login
                 }
             }
