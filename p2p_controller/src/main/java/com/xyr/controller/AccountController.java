@@ -1,11 +1,12 @@
 package com.xyr.controller;
 
+import com.xyr.domain.Admin;
+import com.xyr.service.AccountService;
+import com.xyr.utils.ServerResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by xyr on 2017/8/25.
@@ -14,12 +15,17 @@ import java.util.Map;
 @RequestMapping("/account")
 public class AccountController {
 
+    @Autowired
+    private AccountService accountService;
+
     @RequestMapping("/login")
     @ResponseBody
-    public Map login(String username, String password) {
-        Map map = new HashMap();
-        map.put("status", 1);
-        return map;
+    public ServerResponse login(String username, String password) {
+        Admin admin = accountService.login(username, password);
+        if (admin != null)
+            return ServerResponse.createBySuccess();
+        else
+            return ServerResponse.createByError();
     }
 
 }
