@@ -26,7 +26,7 @@ angular.module('AppController', [])
                 AdminService.signIn(str).success(function (response) {
                     if (response.status == 1) {
                         $rootScope.LoginAdmin = username;
-                        $state.go("home"); //改变状态
+                        $state.go("home"); //$state 路由状态对象,通过go方法可以改变当前的路由状态
                     } else {
                         $scope.errorMsg = '用户登录异常，请联系客服！';
                     }
