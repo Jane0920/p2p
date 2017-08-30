@@ -8,6 +8,7 @@ import com.xyr.service.ProductService;
 import com.xyr.utils.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,8 +35,22 @@ public class ProductServiceImpl implements ProductService {
         return ServerResponse.createBySuccess(product);
     }
 
+    @Override
     public ServerResponse findRates(String proId) {
-        List<ProductEarningRate> productEarningRates = productEarningRateDAO.findByProductId(Integer.parseInt(proId));
+        List<ProductEarningRate> productEarningRates = productEarningRateDAO.findByProductIdOrderByMonth(Integer.parseInt(proId));
         return ServerResponse.createBySuccess(productEarningRates);
+    }
+
+    @Override
+    @Transactional
+    public ServerResponse updateProduct(Product product) {
+        List<ProductEarningRate> productEarningRates = product.getProEarningRate();
+        if (productEarningRates != null && productEarningRates.size() > 0)
+            productEarningRateDAO.deleteByProductId((int) product.getProId());
+
+        productDAO.saveAndFlush(product);
+        productEarningRateDAO.save(productEarningRates);
+
+        return ServerResponse.createBySuccess();
     }
 }
