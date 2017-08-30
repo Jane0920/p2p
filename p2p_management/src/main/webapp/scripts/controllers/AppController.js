@@ -173,15 +173,16 @@ angular.module('AppController', [])
                     if (x === "proEarningRate") {
                         var rateStr = "";
                         for (var y = 0; y < $scope.productInfo.proEarningRate.length; y++) {
-                            rateStr += '"'
+                            rateStr += '{'
+                                + '"month":'
                                 + $scope.productInfo.proEarningRate[y].month
-                                + '":'
+                                + ',"incomeRate":'
                                 + $scope.productInfo.proEarningRate[y].incomeRate
-                                + ","
+                                + "},"
                         }
-                        rateStr = '{'
+                        rateStr = '['
                             + rateStr.substr(0, rateStr.length - 1)
-                            + '}';
+                            + ']';
                         str += "&proEarningRates=" + rateStr;
                     } else {
                         str += "&" + x + "=" + $scope.productInfo[x];

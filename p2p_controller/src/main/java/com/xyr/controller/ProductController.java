@@ -7,9 +7,7 @@ import com.xyr.utils.JsonUtils;
 import com.xyr.utils.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class ProductController {
      *
      * @return
      */
-    @RequestMapping(value = "/findAllProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/findAllProduct")
     @ResponseBody
     public ServerResponse findAllProduct() {
         return productService.findAllProduct();
@@ -41,7 +39,7 @@ public class ProductController {
      * @param proId 产品id
      * @return
      */
-    @RequestMapping(value = "/findProductById", method = RequestMethod.POST)
+    @RequestMapping(value = "/findProductById")
     @ResponseBody
     public ServerResponse findProductById(long proId) {
         return productService.findProductById(proId);
@@ -54,7 +52,7 @@ public class ProductController {
      * @param proEarningRates 产品利率信息
      * @return
      */
-    @RequestMapping(value = "/modifyProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/modifyProduct")
     @ResponseBody
     public ServerResponse modifyProduct(Product product, String proEarningRates) {
         List<ProductEarningRate> productEarningRates = null;
@@ -71,10 +69,40 @@ public class ProductController {
      * @param proId
      * @return
      */
-    @RequestMapping(value = "/findRates", method = RequestMethod.POST)
+    @RequestMapping(value = "/findRates")
     @ResponseBody
     public ServerResponse findRates(String proId) {
         return productService.findRates(proId);
+    }
+
+    /**
+     * 新增产品
+     *
+     * @param product
+     * @param proEarningRates
+     * @return
+     */
+    @RequestMapping(value = "/addProduct")
+    @ResponseBody
+    public ServerResponse addProduct(Product product, String proEarningRates) {
+        List<ProductEarningRate> productEarningRates = null;
+        if (proEarningRates != null && !"".equals(proEarningRates.trim()))
+            productEarningRates = JsonUtils.jsonToList(proEarningRates, ProductEarningRate.class);
+
+        product.setProEarningRate(productEarningRates);
+        return productService.addProduct(product);
+    }
+
+    /**
+     * 删除产品
+     *
+     * @param proId 产品id
+     * @return
+     */
+    @RequestMapping("/delProduct")
+    @ResponseBody
+    public ServerResponse productDel(String proId) {
+        return productService.productDel(proId);
     }
 
 }

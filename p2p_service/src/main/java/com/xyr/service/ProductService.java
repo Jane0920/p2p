@@ -18,4 +18,9 @@ public interface ProductService {
     @Transactional
     ServerResponse updateProduct(Product product);
 
+    ServerResponse addProduct(Product product);
+
+    @Transactional
+    ServerResponse productDel(String proId);
+
 }

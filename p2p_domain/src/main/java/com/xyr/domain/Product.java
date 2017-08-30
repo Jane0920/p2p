@@ -88,8 +88,8 @@ public class Product {
     private String annualInterestRate;//年化利率（json数据储存，1`36种利率分配形式）(接收参数)
 
     @Transient
-//    @JsonFormat(pattern = "yyyy-MM-dd")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modifyTime;//修改时间
 
     @Transient

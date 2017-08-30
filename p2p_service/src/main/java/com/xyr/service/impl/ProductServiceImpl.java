@@ -1,5 +1,6 @@
 package com.xyr.service.impl;
 
+import com.google.common.collect.Lists;
 import com.xyr.dao.ProductDAO;
 import com.xyr.dao.ProductEarningRateDAO;
 import com.xyr.domain.Product;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,6 +53,32 @@ public class ProductServiceImpl implements ProductService {
         productDAO.saveAndFlush(product);
         productEarningRateDAO.save(productEarningRates);
 
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse addProduct(Product product) {
+        Product nowProduct = productDAO.saveAndFlush(product);
+
+        List<ProductEarningRate> rates = product.getProEarningRate();
+        if (rates != null && rates.size() > 0) {
+            List<ProductEarningRate> nowRates = Lists.newArrayList();
+            for (ProductEarningRate rate : rates) {
+                rate.setProductId((int) nowProduct.getProId());
+                nowRates.add(rate);
+            }
+
+            productEarningRateDAO.save(nowRates);
+        }
+
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    @Transactional
+    public ServerResponse productDel(String proId) {
+        productEarningRateDAO.deleteByProductId(Integer.parseInt(proId));
+        productDAO.delete(Long.parseLong(proId));
         return ServerResponse.createBySuccess();
     }
 }
