@@ -5,6 +5,7 @@ import com.xyr.cache.BaseCacheService;
 import com.xyr.domain.User;
 import com.xyr.service.UserAccountService;
 import com.xyr.service.UserService;
+import com.xyr.utils.CommonUtil;
 import com.xyr.utils.ConfigurableConstants;
 import com.xyr.utils.ImageUtil;
 import com.xyr.utils.MD5Util;
@@ -143,6 +144,7 @@ public class UserController {
         if (!_signCode.equalsIgnoreCase(signCode))
             return ServerResponse.createByError(ResponseCode.INPUT_ERROR_OF_VALIDATE_CODE.getCode());
 
+        //密码加密：用户名+小写的密码进行MD5加密
         String pwd = MD5Util.md5(user.getUsername().trim() + user.getPassword().trim().toLowerCase());
         user.setPassword(pwd);
         user.setRegisterTime(new Date());
@@ -193,6 +195,50 @@ public class UserController {
         baseCacheService.expire(token, Long.valueOf(tokenValidity) * 60);
 
         return token;
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param user     用户登录信息（用户名或者手机号，密码）
+     * @param signUuid
+     * @param signCode
+     * @return
+     */
+    @RequestMapping("/login")
+    @ResponseBody
+    public ServerResponse login(User user, String signUuid, String signCode) {
+
+        //空检验
+        if (StringUtils.isEmpty(signUuid))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+        if (StringUtils.isEmpty(signCode))
+            return ServerResponse.createByError(ResponseCode.NULL_OF_VALIDATE_CODE.getCode());
+        String _signCode = baseCacheService.get(signUuid);
+        if (StringUtils.isEmpty(_signCode))
+            return ServerResponse.createByError(ResponseCode.NULL_OF_VALIDATE_CODE.getCode());
+
+        //检验输入验证码是否正确
+        if (!_signCode.equalsIgnoreCase(signCode))
+            return ServerResponse.createByError(ResponseCode.INPUT_ERROR_OF_VALIDATE_CODE.getCode());
+
+        boolean flag = CommonUtil.isMobile(user.getUsername());
+        String password = user.getPassword();
+        if (flag)
+            user = userService.findByPhone(user.getUsername());
+
+        User u = userService.login(user.getUsername(), password);
+        if (user == null) //登录失败，用户名或密码错误
+            return ServerResponse.createByError(ResponseCode.ERROR_OF_USERNAME_PASSWORD.getCode());
+        else {
+            String token = generateUserToken(u.getUsername());
+            Map<String, Object> returnMap = Maps.newHashMap();
+            returnMap.put("id", u.getId());
+            returnMap.put("username", u.getUsername());
+            returnMap.put("token", token);
+
+            return ServerResponse.createBySuccess(returnMap);
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.xyr.service.impl;
 import com.xyr.dao.UserDAO;
 import com.xyr.domain.User;
 import com.xyr.service.UserService;
+import com.xyr.utils.MD5Util;
 import com.xyr.utils.ResponseCode;
 import com.xyr.utils.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userDAO.findByUsername(username);
+    }
+
+    @Override
+    public User findByPhone(String phone) {
+        return userDAO.findByPhone(phone);
+    }
+
+    public User login(String username, String password) {
+        String pwd = MD5Util.md5(username.trim() + password.trim().toLowerCase());
+        return userDAO.findByUsernameAndPassword(username, pwd);
     }
 }

@@ -128,7 +128,7 @@ angular
                         function (res) {
                             if (res.status == 1) {
                                 $scope.error = '';
-                                AuthService.setToken(res.token);
+                                AuthService.setToken(res.data.token);
                                 $rootScope.loginName = res.data.userName;
                                 AuthService.setCookie('user',
                                     res.data.userName);
