@@ -305,11 +305,15 @@
             <version>0.4</version>
         </dependency>
 
-        <!-- redis -->
+        <!--
+            redis
+            jedis版本不能过高，不然会出现Invocation of init method failed;
+            nested exception is java.lang.NoSuchMethodError: redis.clients.jedis.JedisShardInfo.setTimeout(I)V错误
+        -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
+            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>

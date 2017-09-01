@@ -238,7 +238,8 @@ angular
                                     $scope.phone_error_msg = '';
                                     $scope.phoneIsPass = true;
                                 } else {
-                                    $scope.phone_error_msg = '手机号已存在,请重新输入！';
+                                    $scope.phone_error_msg = hmd
+                                        .presentStatus(res.status);
                                     $scope.phoneIsPass = false;
                                 }
                             });
@@ -276,10 +277,11 @@ angular
                 }
             };
             // 获取验证码
+            // uuid的作用：一方面是为了模拟session。在向服务器发送请求时也发送UUID来验证是否为同一个回话请求，第二方面是为了产生验证码
             $scope.uuid = '';
             PostService.getUuid().success(function (res) {
                 if (res.status == 1) {
-                    $scope.uuid = res.uuid;
+                    $scope.uuid = res.data;
                     $scope.img_src = PostService.getImg($scope.uuid);
                 }
             });
@@ -374,7 +376,7 @@ angular
                                 $scope.username);
                             AuthService.setCookie('uid',
                                 res.data.id);
-                            AuthService.setToken(res.token);
+                            AuthService.setToken(res.data.token);
                             $scope.two_step = true;
                             $scope.three_step = true;
                             $scope.four_step = false;
