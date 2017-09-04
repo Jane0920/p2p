@@ -266,7 +266,7 @@ public class UserController {
      * @param token
      * @return
      */
-    @RequestMapping("/userSecure")
+    @RequestMapping(value = {"/userSecure", "/userSecureDetailed"})
     @ResponseBody
     public ServerResponse userSecure(@RequestHeader(value = "token") String token) {
         if (StringUtils.isEmpty(token))
@@ -275,12 +275,16 @@ public class UserController {
         //根据token获取用户信息
         Map<String, Object> userMap = baseCacheService.getHmap(token);
         if (userMap == null || userMap.size() == 0)
-            return ServerResponse.createByError();
+            return ServerResponse.createByError(ResponseCode.LOGIN_INVALID.getCode());
 
         String username = (String) userMap.get("username");
         User user = userService.findByUsername(username);
         return ServerResponse.createBySuccess(user);
     }
+
+//    @RequestMapping("/validatePhone")
+//    @ResponseBody
+//    public ServerResponse validatePhone()
 
 
 }

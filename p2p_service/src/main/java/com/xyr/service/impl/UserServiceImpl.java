@@ -8,6 +8,7 @@ import com.xyr.utils.ResponseCode;
 import com.xyr.utils.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by xyr on 2017/9/1.
@@ -55,5 +56,12 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String password) {
         String pwd = MD5Util.md5(username.trim() + password.trim().toLowerCase());
         return userDAO.findByUsernameAndPassword(username, pwd);
+    }
+
+    @Override
+    @Transactional
+    public ServerResponse updateRealName(String realName, String identity, int id) {
+        userDAO.updateRealName(realName, identity, id);
+        return ServerResponse.createBySuccess();
     }
 }

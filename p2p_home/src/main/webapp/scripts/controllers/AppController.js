@@ -63,7 +63,7 @@ angular
                     .success(
                         function (response) {
                             if (response.status == 1) {
-                                $scope.usable = response.data[0].u_balance;
+                                $scope.usable = response.data.balance;
                             } else {
                                 $scope.usable = '0.00';
                             }
@@ -730,7 +730,7 @@ angular
                 .success(
                     function (res) {
                         if (res.status == 1) {
-                            var data = res.data[0];
+                            var data = res.data;
                             $scope.payStatus = data.payPwdStatus;
                             $scope.emailStatus = data.emailStatus;
                             $scope.phoneStatus = data.phoneStatus;
