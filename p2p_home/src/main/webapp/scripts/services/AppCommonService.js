@@ -3,9 +3,9 @@ var option = {
         'api_user': '/p2p_controller/user/', //用户相关
         'api_investment': '/itcast_p2p_action/investment/',
         'api_productRate': '/itcast_p2p_action/productRate/',
-        'api_product': '/itcast_p2p_action/product/',
+        'api_product': '/p2p_controller/product/',
         'api_productAccount': '/itcast_p2p_action/productaccount/',
-        'api_acount': '/itcast_p2p_action/account/',
+        'api_acount': '/p2p_controller/account/',
         'api_verification': '/p2p_controller/verification/',
         'api_emailAuth': '/itcast_p2p_action/emailAuth/',
         'api_paymentpwd': '/itcast_p2p_action/paymentpwd/',

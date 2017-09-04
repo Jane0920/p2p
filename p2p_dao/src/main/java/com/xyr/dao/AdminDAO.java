@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Created by xyr on 2017/8/28.
  */
-public interface AccountDAO extends JpaRepository<Admin, Integer> {
+public interface AdminDAO extends JpaRepository<Admin, Integer> {
 
     Admin findByUsernameAndPassword(String username, String password);
 

@@ -23,4 +23,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         userAccount.setUserId(userId);
         userAccountDAO.saveAndFlush(userAccount);
     }
+
+    @Override
+    public UserAccount findByUserId(int userId) {
+        return userAccountDAO.findByUserId(userId);
+    }
 }

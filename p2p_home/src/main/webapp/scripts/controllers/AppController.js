@@ -93,7 +93,7 @@ angular
                 PostService.getUuid().success(
                     function (res) {
                         if (res.status == 1) {
-                            $scope.uuid = res.uuid;
+                            $scope.uuid = res.data;
                             $scope.img_src = PostService
                                 .getImg($scope.uuid);
                         }
@@ -145,8 +145,8 @@ angular
 
                                 $state.go("space.home");
 
-                            } else if (res.status == 140) {
-                                $scope.error = '您的账号已被锁定';
+                            } else if (res.status == 26 || res.status == 13) {
+                                $scope.error = '验证码为空';
                             } else if (res.status == 27) {
                                 $scope.error = '您输入的验证码错误！';
                                 $scope.refresh();
@@ -609,6 +609,8 @@ angular
             $scope.$state = $state;
             $scope.username = $rootScope.loginName;
             $scope.menu = '';
+            //$on、$emit和$broadcast使得event、data在controller之间的传递变的简单
+            //$on：监听或接收数据。。用于接收event与data
             $scope.$on('childMenuState', function (event, data) {
                 $scope.menu = data;
             });
@@ -625,7 +627,7 @@ angular
             UserService.getSafeLevel('').success(
                 function (res) {
                     if (res.status == 1) {
-                        var data = res.data[0];
+                        var data = res.data;
                         $scope.phoneAuth = data.phoneStatus;
                         $scope.IDAuth = data.realNameStatus;
                         $scope.payPwdAuth = data.payPwdStatus;
@@ -676,9 +678,9 @@ angular
             // 进入用户帐户主页面
             PostService.personCenter('').success(function (response) {
                 if (response.status == 1) {
-                    $scope.totle = response.data[0].u_total;
-                    $scope.usable = response.data[0].u_balance;
-                    $scope.grand = response.data[0].u_interest_a;
+                    $scope.totle = response.data.total;
+                    $scope.usable = response.data.balance;
+                    $scope.grand = response.data.interestA;
                 } else if (response.status == 15) {
                     AuthService.clearUserInfo();
                     $state.go('login', {}, {

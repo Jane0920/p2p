@@ -9,6 +9,7 @@ public enum ResponseCode {
     SUCCESS(1, "成功"),
     NULL_RESULT(2, "没有结果"),
     NULL_TOKEN(13, "token为空"),
+    LOGIN_INVALID(15, "用户未登录"),
     NULL_OF_VALIDATE_CODE(26, "验证码为空"),
     INPUT_ERROR_OF_VALIDATE_CODE(27, "验证码输入不正确"),
     ERROR_OF_USERNAME_PASSWORD(66, "用户名密码错误"),

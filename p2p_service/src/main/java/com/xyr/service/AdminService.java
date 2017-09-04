@@ -5,7 +5,7 @@ import com.xyr.domain.Admin;
 /**
  * Created by xyr on 2017/8/28.
  */
-public interface AccountService {
+public interface AdminService {
 
     /**
      * 登录验证

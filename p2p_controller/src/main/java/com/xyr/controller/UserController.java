@@ -15,6 +15,7 @@ import com.xyr.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -234,11 +235,52 @@ public class UserController {
             String token = generateUserToken(u.getUsername());
             Map<String, Object> returnMap = Maps.newHashMap();
             returnMap.put("id", u.getId());
-            returnMap.put("username", u.getUsername());
+            returnMap.put("userName", u.getUsername());
             returnMap.put("token", token);
 
             return ServerResponse.createBySuccess(returnMap);
         }
     }
+
+    /**
+     * 用户退出
+     *
+     * @param token
+     * @return
+     */
+    @RequestMapping("/logout")
+    @ResponseBody
+    public ServerResponse logout(@RequestHeader(value = "token") String token) {
+
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+        //删除redis中的token
+        baseCacheService.del(token);
+        return ServerResponse.createBySuccess();
+
+    }
+
+    /**
+     * 获取登录用户的安全等级
+     *
+     * @param token
+     * @return
+     */
+    @RequestMapping("/userSecure")
+    @ResponseBody
+    public ServerResponse userSecure(@RequestHeader(value = "token") String token) {
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+
+        //根据token获取用户信息
+        Map<String, Object> userMap = baseCacheService.getHmap(token);
+        if (userMap == null || userMap.size() == 0)
+            return ServerResponse.createByError();
+
+        String username = (String) userMap.get("username");
+        User user = userService.findByUsername(username);
+        return ServerResponse.createBySuccess(user);
+    }
+
 
 }
