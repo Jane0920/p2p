@@ -317,11 +317,11 @@ angular.module('AppCommonService', ['ngCookies', 'ui.router'])
 
             //手机绑定
             addPhoneAuth: function ($str) {
-                return $http.post(option.url.api_user + 'addPhone', $str, option.header);
+                return $http.post(option.url.api_verification + 'addPhone', $str, option.header);
             },
             //修改手机后绑定
             updatePhone: function ($str) {
-                return $http.post(option.url.api_user + 'addPhone', $str, option.header);
+                return $http.post(option.url.api_verification + 'addPhone', $str, option.header);
             },
 
             findAllProduct: function () {

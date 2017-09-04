@@ -926,7 +926,7 @@ angular
                     };
                     PostService.checkPhone(objToStr(data)).success(
                         function (res) {
-                            if (res.status == 1) {
+                            if (res.status == 67) {
                                 $scope.phoneMsg = '该手机号可用!';
                                 $scope.reaccept = false;
                             } else if (res.status == 15) {
