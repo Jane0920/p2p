@@ -19,6 +19,8 @@ public interface UserService {
 
     User findByPhone(String phone);
 
+    User findById(int id);
+
     User login(String username, String password);
 
     @Transactional
@@ -26,5 +28,11 @@ public interface UserService {
 
     @Transactional
     ServerResponse updatePhoneAndPhoneStatus(String phone, int phoneStatus, int id);
+
+    @Transactional
+    ServerResponse updateEmailAndEmailStatus(String email, int emailStatus, int id);
+
+    @Transactional
+    void updateEmailStatus(int emailStatus, int id);
 
 }

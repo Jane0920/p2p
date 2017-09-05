@@ -7,7 +7,7 @@ var option = {
         'api_productAccount': '/itcast_p2p_action/productaccount/',
         'api_acount': '/p2p_controller/account/',
         'api_verification': '/p2p_controller/verification/',
-        'api_emailAuth': '/itcast_p2p_action/emailAuth/',
+        'api_emailAuth': '/p2p_controller/emailAuth/',
         'api_paymentpwd': '/itcast_p2p_action/paymentpwd/',
         'api_extracts': '/itcast_p2p_action/extracts/',  //提现与支付功能
         'api_bankcardInfo': '/itcast_p2p_action/bankCardInfo/',

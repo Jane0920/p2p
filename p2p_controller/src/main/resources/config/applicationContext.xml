@@ -35,4 +35,18 @@
 
     <import resource="applicationContext-cache.xml"/>
 
+    <!-- java mail和Spring整合 -->
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.qq.com"/>
+        <property name="port" value="465"/>
+        <property name="username" value="736845367@qq.com"/>
+        <property name="password" value="vkhbdwuztmdmbfig"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
 </beans>

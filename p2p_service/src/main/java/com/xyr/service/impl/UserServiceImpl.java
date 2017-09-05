@@ -60,6 +60,12 @@ public class UserServiceImpl implements UserService {
         return userDAO.findByPhone(phone);
     }
 
+    @Override
+    public User findById(int id) {
+        return userDAO.findOne(id);
+    }
+
+    @Override
     public User login(String username, String password) {
         String pwd = MD5Util.md5(username.trim() + password.trim().toLowerCase());
         return userDAO.findByUsernameAndPassword(username, pwd);
@@ -79,4 +85,19 @@ public class UserServiceImpl implements UserService {
         userDAO.updatePhoneAndPhoneStatus(phone, phoneStatus, id);
         return ServerResponse.createBySuccess();
     }
+
+    @Override
+    @Transactional
+    public ServerResponse updateEmailAndEmailStatus(String email, int emailStatus, int id) {
+        userDAO.updateEmailAndEmailStatus(email, emailStatus, id);
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    @Transactional
+    public void updateEmailStatus(int emailStatus, int id) {
+        userDAO.updateEmailStatus(emailStatus, id);
+    }
+
+
 }

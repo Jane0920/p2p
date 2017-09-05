@@ -5,6 +5,7 @@ import com.xyr.cache.BaseCacheService;
 import com.xyr.domain.User;
 import com.xyr.service.UserService;
 import com.xyr.utils.ResponseCode;
+import com.xyr.utils.SecretUtil;
 import com.xyr.utils.ServerResponse;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.logging.LogFactory;
@@ -110,6 +111,32 @@ public class VerificationController {
 
         //更新手机认证状态
         return userService.updatePhoneAndPhoneStatus(phone, 1, user.getId());
+    }
+
+    /**
+     * 邮箱激活
+     *
+     * @param us 加密后的id
+     * @return
+     */
+    @RequestMapping("/emailActivation")
+    @ResponseBody
+    public ServerResponse emailActivation(String us) {
+        try {
+            //解密id
+            int id = Integer.parseInt(SecretUtil.decode(us));
+            //获取user，校验邮箱是否已经绑定
+            User user = userService.findById(id);
+            if (user == null || StringUtils.isEmpty(user.getEmail()))
+                return ServerResponse.createByError();
+
+            //修改email的状态为已认证
+            userService.updateEmailStatus(1, id);
+            return ServerResponse.createBySuccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ServerResponse.createByError();
+        }
     }
 
 }
