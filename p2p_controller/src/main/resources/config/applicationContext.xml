@@ -43,7 +43,11 @@
         <property name="password" value="vkhbdwuztmdmbfig"/>
         <property name="javaMailProperties">
             <props>
+                <prop key="mail.smtp.timeout">5000</prop>
                 <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
             </props>
         </property>
         <property name="defaultEncoding" value="UTF-8"/>
