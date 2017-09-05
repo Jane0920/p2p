@@ -11,7 +11,7 @@ public interface UserService {
 
     ServerResponse validateUserName(String username);
 
-    ServerResponse validatePhone(String phone);
+    ServerResponse validatePhone(String phone, Integer id);
 
     boolean addUser(User user);
 
@@ -23,5 +23,8 @@ public interface UserService {
 
     @Transactional
     ServerResponse updateRealName(String realName, String identity, int id);
+
+    @Transactional
+    ServerResponse updatePhoneAndPhoneStatus(String phone, int phoneStatus, int id);
 
 }

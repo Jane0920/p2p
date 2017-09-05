@@ -29,12 +29,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse validatePhone(String phone) {
+    public ServerResponse validatePhone(String phone, Integer id) {
         User user = userDAO.findByPhone(phone);
-        if (user == null)
-            return ServerResponse.createBySuccess();
-        else
-            return ServerResponse.createByError(ResponseCode.PHONE_ALREADY_REGISTER.getCode());
+        if (id == null) {
+            if (user == null)
+                return ServerResponse.createBySuccess();
+            else
+                return ServerResponse.createByError(ResponseCode.PHONE_ALREADY_REGISTER.getCode());
+        } else {
+            if (user == null || user.getId() != id)
+                return ServerResponse.createByError();
+            else
+                return ServerResponse.createByError(ResponseCode.PHONE_ALREADY_REGISTER.getCode());
+        }
     }
 
     @Override
@@ -62,6 +69,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ServerResponse updateRealName(String realName, String identity, int id) {
         userDAO.updateRealName(realName, identity, id);
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    @Transactional
+    public ServerResponse updatePhoneAndPhoneStatus(String phone, int phoneStatus, int id) {
+
+        userDAO.updatePhoneAndPhoneStatus(phone, phoneStatus, id);
         return ServerResponse.createBySuccess();
     }
 }

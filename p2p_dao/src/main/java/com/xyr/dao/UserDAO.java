@@ -20,4 +20,8 @@ public interface UserDAO extends JpaRepository<User, Integer> {
     @Query("update User set realName = ?1, identity = ?2, realNameStatus = 1 where id = ?3")
     void updateRealName(String realName, String identity, int id);
 
+    @Modifying
+    @Query("update User set phone = ?1, phoneStatus = ?2 where id = ?3")
+    void updatePhoneAndPhoneStatus(String phone, int phoneStatus, int id);
+
 }

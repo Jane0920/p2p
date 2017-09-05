@@ -101,7 +101,20 @@ public class UserController {
     @RequestMapping("/validatePhone")
     @ResponseBody
     public ServerResponse validatePhone(String phone) {
-        return userService.validatePhone(phone);
+        return userService.validatePhone(phone, null);
+    }
+
+    @RequestMapping("/validatePhone2")
+    @ResponseBody
+    public ServerResponse validatePhone2(@RequestHeader(value = "token") String token, String phone) {
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+
+        Map<String, Object> userMap = baseCacheService.getHmap(token);
+        if (userMap == null || userMap.size() == 0)
+            return ServerResponse.createByError(ResponseCode.LOGIN_INVALID.getCode());
+
+        return userService.validatePhone(phone, (int) userMap.get("id"));
     }
 
     /**
@@ -281,10 +294,5 @@ public class UserController {
         User user = userService.findByUsername(username);
         return ServerResponse.createBySuccess(user);
     }
-
-//    @RequestMapping("/validatePhone")
-//    @ResponseBody
-//    public ServerResponse validatePhone()
-
 
 }

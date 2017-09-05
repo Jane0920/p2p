@@ -1,9 +1,15 @@
 package com.xyr.controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.xyr.cache.BaseCacheService;
+import com.xyr.domain.User;
 import com.xyr.service.UserService;
 import com.xyr.utils.ResponseCode;
 import com.xyr.utils.ServerResponse;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -19,6 +25,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/verification")
 public class VerificationController {
+
+    private static final Logger logger = LoggerFactory.getLogger(VerificationController.class);
 
     @Autowired
     private BaseCacheService baseCacheService;
@@ -46,6 +54,62 @@ public class VerificationController {
 
         return userService.updateRealName(realName, identity, (int) userMap.get("id"));
 
+    }
+
+    /**
+     * 发送手机认证验证码
+     *
+     * @param phone
+     * @return
+     */
+    @RequestMapping("/sendMessage")
+    @ResponseBody
+    public ServerResponse sendMessage(String phone) {
+        //获取随机验证码
+        String phoneCode = RandomStringUtils.randomNumeric(6);
+        String msg = "p2p手机验证码：" + phoneCode;
+
+        //模拟发送短信
+        logger.info(msg + "..................");
+
+        //保存验证码到redis
+        baseCacheService.set(phone, phoneCode);
+        baseCacheService.expire(phone, 3 * 60); //验证码三分钟后失效
+
+        return ServerResponse.createBySuccess();
+
+    }
+
+    /**
+     * 进行手机认证
+     *
+     * @param token
+     * @param phone
+     * @param phoneCode
+     * @return
+     */
+    @RequestMapping("/addPhone")
+    @ResponseBody
+    public ServerResponse addPhone(@RequestHeader(value = "token") String token, String phone, String phoneCode) {
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+
+        Map<String, Object> userMap = baseCacheService.getHmap(token);
+        if (userMap == null || userMap.size() == 0)
+            return ServerResponse.createByError(ResponseCode.LOGIN_INVALID.getCode());
+
+        //判断输入验证码是否正确
+        String _phoneCode = baseCacheService.get(phone);
+        if (!phoneCode.equals(_phoneCode))
+            return ServerResponse.createByError(ResponseCode.INPUT_ERROR_OF_VALIDATE_CODE.getCode());
+
+        //判断用户手机号是否已经验证
+        User user = userService.findByUsername((String) userMap.get("username"));
+        if (user.getPhoneStatus() == 1)
+            return ServerResponse.createByError(ResponseCode.PHONE_ALREADY_REGISTER.getCode());
+
+        //更新手机认证状态
+        return userService.updatePhoneAndPhoneStatus(phone, 1, user.getId());
     }
 
 }

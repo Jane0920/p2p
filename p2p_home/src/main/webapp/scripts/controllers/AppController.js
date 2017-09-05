@@ -935,7 +935,7 @@ angular
                                     reload: true
                                 });
                             } else {
-                                hmd.popupErrorInfo(res.status);
+                                hmd.popupErrorInfo('改手机不可用', 'error');
                                 $scope.reaccept = true;
                             }
                         });

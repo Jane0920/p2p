@@ -121,6 +121,11 @@ angular.module('AppCommonService', ['ngCookies', 'ui.router'])
                 return $http.post(option.url.api_user + 'validatePhone', $str, option.header);
                 ///itcast_p2p_action/user/validatePhone
             },
+            //手机认证，验证手机是否可用
+            checkPhone: function ($str) {
+                return $http.post(option.url.api_user + 'validatePhone2', $str, option.header);
+                ///itcast_p2p_action/user/validatePhone
+            },
 
             //注册校验验证码的正确性
             yzAuthCaptcha: function ($str) {
