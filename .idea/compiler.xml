@@ -22,16 +22,16 @@
     <bytecodeTargetLevel>
       <module name="p2p" target="1.5" />
       <module name="p2p_action" target="1.5" />
-      <module name="p2p_cache" target="1.8" />
+      <module name="p2p_cache" target="1.5" />
       <module name="p2p_controller" target="1.8" />
-      <module name="p2p_dao" target="1.8" />
-      <module name="p2p_domain" target="1.8" />
-      <module name="p2p_home" target="1.8" />
-      <module name="p2p_jms" target="1.8" />
-      <module name="p2p_management" target="1.8" />
-      <module name="p2p_rbac" target="1.8" />
-      <module name="p2p_service" target="1.8" />
-      <module name="p2p_utils" target="1.8" />
+      <module name="p2p_dao" target="1.5" />
+      <module name="p2p_domain" target="1.5" />
+      <module name="p2p_home" target="1.5" />
+      <module name="p2p_jms" target="1.5" />
+      <module name="p2p_management" target="1.5" />
+      <module name="p2p_rbac" target="1.5" />
+      <module name="p2p_service" target="1.5" />
+      <module name="p2p_utils" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

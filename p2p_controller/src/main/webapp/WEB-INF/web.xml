@@ -36,12 +36,12 @@
 
     <!-- 监听应用上下文 -->
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
     <!-- 监听Spring上下文 -->
     <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <!-- spring配置 -->
     <context-param>

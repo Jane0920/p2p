@@ -19,25 +19,28 @@
 
     <!-- 配置JMS链接模版 -->
     <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="${brokerURL}"/>
-        <property name="clientID" value="${clientId}"/>
+        <property name="brokerURL" value="=tcp://localhost:61616"/>
+        <property name="clientID" value="p2p_client"/>
     </bean>
 
     <!-- 配置JMS模版 -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="defaultDestination" ref="defaultDestination"/>
         <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- 点对点操作 -->
         <property name="pubSubDomain" value="false"/>
         <!-- deliveryMode, priority, timeToLive 的开关，要生效，必须配置为true，默认false -->
         <property name="explicitQosEnabled" value="true"/>
-        <!-- 发送模式 DeliveryMode.NON_PERSISTENT=1:非持久 ; DeliveryMode.PERSISTENT=2:持久 -->
+        <!-- 发送模式 DeliveryMode.NON_PERSISTENT=1:非持久 ; DeliveryMode.PERSISTENT=2:持久（必须接收，不接受继续发） -->
         <property name="deliveryMode" value="1"/>
         <!-- 消息应答方式 Session.AUTO_ACKNOWLEDGE 消息自动签收 Session.CLIENT_ACKNOWLEDGE 客户端调用acknowledge方法手动签收 Session.DUPS_OK_ACKNOWLEDGE 不必必须签收，消息可能会重复发送 -->
         <property name="sessionAcknowledgeMode" value="2"/>
+        <!-- 消息转换器 -->
+        <property name="messageConverter" ref="innerMessageConverter" />
     </bean>
 
     <!-- 内部消息转换器 -->
-    <bean id="innerMessageConverter" class="cn.itcast.service.message.InnerMessageConverter"/>
+    <bean id="innerMessageConverter" class="com.xyr.service.msm.InnerMessageConverter"/>
 
     <!-- 发送消息的目的地（一个队列） -->
     <bean id="defaultDestination" class="org.apache.activemq.command.ActiveMQQueue">
