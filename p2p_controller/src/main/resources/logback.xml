@@ -49,7 +49,7 @@
     </logger>
 
 
-    <!-- geelynote mybatis log 日志 -->
+    <!-- spring data jpa log 日志 -->
 
     <logger name="com.xyr.dao" level="DEBUG"/>
 
