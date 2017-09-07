@@ -2,6 +2,7 @@ package com.xyr.jms.sender;
 
 import com.xyr.jms.MessageReceiver;
 import com.xyr.jms.vo.MessageConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -12,10 +13,10 @@ import javax.annotation.Resource;
 @Component
 public class MessageFactory {
 
-    @Resource(name = "emailSender")
-    private MessageSender email;
-    @Resource(name = "smsSender")
-    private MessageSender sms;
+    @Autowired
+    private MessageSender emailSender;
+    @Autowired
+    private MessageSender smsSender;
 
     /**
      * 根据消息类型创建具体的消息发送对象
@@ -25,9 +26,9 @@ public class MessageFactory {
      */
     public MessageSender getMessageSender(String type) {
         if (MessageConstant.EmailMessage.equals(type))
-            return this.email;
+            return this.emailSender;
         else if (MessageConstant.SMSMessage.equals(type))
-            return this.sms;
+            return this.smsSender;
         else
             return null;
     }

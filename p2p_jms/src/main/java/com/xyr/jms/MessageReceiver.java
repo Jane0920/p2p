@@ -31,7 +31,7 @@ public class MessageReceiver implements MessageListener {
             MapMessage map = (MapMessage) message;
             try {
                 processMessage(map);// 调用发送消息
-                message.acknowledge(); // 自动通知确认 手动接收
+                map.acknowledge(); // 自动通知确认 手动接收
             } catch (Exception e) {
                 log.error("监听异常：" + e);
             }
@@ -45,7 +45,7 @@ public class MessageReceiver implements MessageListener {
      */
     private void processMessage(MapMessage mapMessage) {
         try {
-            String type = mapMessage.getString("type");
+            String type = mapMessage.getString("messageType");
             MessageSender sender = messageFactory.getMessageSender(type);
             sender.sendMessage(mapMessage);
         } catch (Exception e) {

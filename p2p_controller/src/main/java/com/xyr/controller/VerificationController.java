@@ -124,22 +124,22 @@ public class VerificationController {
      * @return
      */
     @RequestMapping("/emailActivation")
-    @ResponseBody
-    public ServerResponse emailActivation(String us) {
+    //@ResponseBody
+    public String emailActivation(String us) {
         try {
             //解密id
             int id = Integer.parseInt(SecretUtil.decode(us));
             //获取user，校验邮箱是否已经绑定
             User user = userService.findById(id);
             if (user == null || StringUtils.isEmpty(user.getEmail()))
-                return ServerResponse.createByError();
+                return "return";
 
             //修改email的状态为已认证
             userService.updateEmailStatus(1, id);
-            return ServerResponse.createBySuccess();
+            return "return";
         } catch (Exception e) {
             e.printStackTrace();
-            return ServerResponse.createByError();
+            return "return";
         }
     }
 

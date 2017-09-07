@@ -45,20 +45,6 @@ public class EmailServiceImpl implements EmailService {
         //通过convertAndSend调用消息转换器messageConverter，然后发送
         jmsTemplate.convertAndSend(map);
 
-//        //创建邮件信息
-//        MimeMessage mm = javaMailSender.createMimeMessage();
-//
-//        MimeMessageHelper helper = new MimeMessageHelper(mm);
-//        try {
-//            helper.setFrom("736845367@qq.com");
-//            helper.setSubject(title);
-//            helper.setText(content, true); //true表示如果内容包含html代码则解析
-//            helper.setTo(email);
-//            javaMailSender.send(mm);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
 }
