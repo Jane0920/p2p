@@ -924,7 +924,7 @@ angular
                     var data = {
                         phone: phoneunm
                     };
-                    PostService.checkPhone(objToStr(data)).success(
+                    PostService.checkPhone2(objToStr(data)).success(
                         function (res) {
                             if (res.status == 67) {
                                 $scope.phoneMsg = '该手机号可用!';
