@@ -4,6 +4,7 @@ import com.sun.org.apache.regexp.internal.RE;
 import com.xyr.cache.BaseCacheService;
 import com.xyr.domain.User;
 import com.xyr.service.UserService;
+import com.xyr.service.msm.MSMService;
 import com.xyr.utils.ResponseCode;
 import com.xyr.utils.SecretUtil;
 import com.xyr.utils.ServerResponse;
@@ -33,6 +34,8 @@ public class VerificationController {
     private BaseCacheService baseCacheService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MSMService msmService;
 
     /**
      * 实名认证
@@ -72,6 +75,7 @@ public class VerificationController {
 
         //模拟发送短信
         logger.info(msg + "..................");
+        msmService.sendMsm(phone, msg);
 
         //保存验证码到redis
         baseCacheService.set(phone, phoneCode);

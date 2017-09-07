@@ -19,7 +19,7 @@
 
     <!-- 配置JMS链接模版 -->
     <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="=tcp://localhost:61616"/>
+        <property name="brokerURL" value="tcp://localhost:61616"/>
         <property name="clientID" value="p2p_client"/>
     </bean>
 

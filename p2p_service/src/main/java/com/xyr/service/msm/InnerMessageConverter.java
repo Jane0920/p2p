@@ -22,9 +22,13 @@ public class InnerMessageConverter implements MessageConverter{
 
         message.setObject("title", map.get("title"));
         message.setObject("content", map.get("content"));
+        message.setObject("numbers", map.get("numbers"));
+        message.setObject("mc", map.get("mc"));
         message.setObject("to", map.get("to"));
         message.setObject("cc", map.get("cc"));
-        message.setObject("type", map.get("type"));
+        message.setObject("bcc", map.get("bcc"));
+        message.setObject("from", map.get("from"));
+        message.setObject("messageType", map.get("messageType"));
 
         return message;
     }

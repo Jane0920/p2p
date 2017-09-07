@@ -7,6 +7,18 @@
           <element id="module-output" name="p2p_jms" />
         </element>
         <element id="directory" name="lib">
+          <element id="archive" name="p2p_service-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="p2p_service" />
+          </element>
+          <element id="archive" name="p2p_dao-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="p2p_dao" />
+          </element>
+          <element id="archive" name="p2p_domain-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="p2p_domain" />
+          </element>
+          <element id="archive" name="p2p_utils-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="p2p_utils" />
+          </element>
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.2.RELEASE" />
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.2.RELEASE" />
