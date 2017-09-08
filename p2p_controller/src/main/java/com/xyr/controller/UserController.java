@@ -242,7 +242,7 @@ public class UserController {
             user = userService.findByPhone(user.getUsername());
 
         User u = userService.login(user.getUsername(), password);
-        if (user == null) //登录失败，用户名或密码错误
+        if (u == null) //登录失败，用户名或密码错误
             return ServerResponse.createByError(ResponseCode.ERROR_OF_USERNAME_PASSWORD.getCode());
         else {
             String token = generateUserToken(u.getUsername());

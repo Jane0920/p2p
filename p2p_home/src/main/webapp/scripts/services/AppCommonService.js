@@ -1,7 +1,7 @@
 var option = {
     'url': {
         'api_user': '/p2p_controller/user/', //用户相关
-        'api_investment': '/itcast_p2p_action/investment/',
+        'api_investment': '/p2p_controller/investment/',
         'api_productRate': '/p2p_controller/productRate/',
         'api_product': '/p2p_controller/product/',
         'api_productAccount': '/itcast_p2p_action/productaccount/',
