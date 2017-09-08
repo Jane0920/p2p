@@ -1,6 +1,7 @@
 package com.xyr.dao;
 
 import com.xyr.domain.ProductEarningRate;
+import org.omg.CORBA.PERSIST_STORE;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +14,8 @@ import java.util.List;
 public interface ProductEarningRateDAO extends JpaRepository<ProductEarningRate, Integer> {
 
     List<ProductEarningRate> findByProductIdOrderByMonth(int productId);
+
+    List<ProductEarningRate> findByProductId(int productId);
 
     /**
      * 使用 @Modifying 进行修饰. 以通知 SpringData， 这是一个 UPDATE 或 DELETE 操作

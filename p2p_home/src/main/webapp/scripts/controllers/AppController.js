@@ -3045,7 +3045,7 @@ angular
                             .click(
                                 function () {
                                     var msg = index + 1
-                                    // 判断用户是否登录
+                                    // 判断用户是否登录，未登录弹出模态框
                                     if (!(AuthService
                                             .isAuthenticated() && AuthService
                                             .getToken())) {
@@ -3061,20 +3061,20 @@ angular
                                         var mTou_intro = $('#mTou_intro');
                                         mTou_intro
                                             .click(function (e) {
-                                                var target = e.target;
-                                                if (target.nodeName === 'A'
+                                                var target = e.target; //获取点击的对象
+                                                if (target.nodeName === 'A' //判断当前是否为a标签
                                                     && $(
                                                         target)
                                                         .attr(
-                                                            'name') === 'moto-buying') {
+                                                            'name') === 'moto-buying') {   //判断当前的对象是否包含属性 name='moto-buying'
                                                     $(
                                                         'a[name=moto-buying]')
                                                         .removeClass(
-                                                            'current2fa8e1');
+                                                            'current2fa8e1');    //对我要购买的点击按钮都加样式current2fa8e1
                                                     $(
                                                         target)
                                                         .addClass(
-                                                            'current2fa8e1');
+                                                            'current2fa8e1');   //在对当前点击的我要购买的按钮移除该样式current2fa8e1
                                                 }
                                             });
 
@@ -3086,6 +3086,7 @@ angular
                                         moto.withdraw = 0; // 提取金额
                                         var str = "pid="
                                             + msg;
+                                        //获取要购买的理财产品的利率信息
                                         PostService
                                             .getYearInterest(
                                                 str)
