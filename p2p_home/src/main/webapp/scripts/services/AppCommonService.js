@@ -10,7 +10,7 @@ var option = {
         'api_emailAuth': '/p2p_controller/emailAuth/',
         'api_paymentpwd': '/itcast_p2p_action/paymentpwd/',
         'api_extracts': '/itcast_p2p_action/extracts/',  //提现与支付功能
-        'api_bankcardInfo': '/itcast_p2p_action/bankCardInfo/',
+        'api_bankcardInfo': '/p2p_controller/bankCardInfo/',
         'api_charges': '/itcast_p2p_action/charges/'
     },
     'header': {
