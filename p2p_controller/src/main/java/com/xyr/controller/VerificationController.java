@@ -117,6 +117,25 @@ public class VerificationController {
         return userService.updatePhoneAndPhoneStatus(phone, 1, user.getId());
     }
 
+    @RequestMapping("/validateSMS")
+    @ResponseBody
+    public ServerResponse validateSMS(@RequestHeader(value = "token") String token, String phone, String code) {
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+
+        Map<String, Object> userMap = baseCacheService.getHmap(token);
+        if (userMap == null || userMap.size() == 0)
+            return ServerResponse.createByError(ResponseCode.LOGIN_INVALID.getCode());
+
+        //判断输入验证码是否正确
+        String _phoneCode = baseCacheService.get(phone);
+        if (!code.equals(_phoneCode))
+            return ServerResponse.createByError(ResponseCode.INPUT_ERROR_OF_VALIDATE_CODE.getCode());
+        else
+            return ServerResponse.createBySuccess();
+
+    }
+
     /**
      * 邮箱激活
      *

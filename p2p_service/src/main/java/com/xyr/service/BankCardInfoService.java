@@ -11,4 +11,6 @@ public interface BankCardInfoService {
 
     BankCardInfo findByUserId(int userId);
 
+    void addBankCardInfo(BankCardInfo bci);
+
 }

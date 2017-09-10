@@ -22,4 +22,9 @@ public class BankCardInfoServiceImpl implements BankCardInfoService {
         return bankCardInfoDAO.findByUserId(userId);
     }
 
+    @Override
+    public void addBankCardInfo(BankCardInfo bci) {
+        bankCardInfoDAO.saveAndFlush(bci);
+    }
+
 }

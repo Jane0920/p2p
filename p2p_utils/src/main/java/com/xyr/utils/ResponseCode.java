@@ -8,6 +8,7 @@ public enum ResponseCode {
     BREAK_DOWN(0, "失败"),
     SUCCESS(1, "成功"),
     NULL_RESULT(2, "没有结果"),
+    CARDINFO_ALEARD_EXIST(5, "已经添加过银行卡信息"),
     NULL_TOKEN(13, "token为空"),
     LOGIN_INVALID(15, "用户未登录"),
     CAPITAL_TOO_LARGE(17, "投资金额不能大于账户余额"),

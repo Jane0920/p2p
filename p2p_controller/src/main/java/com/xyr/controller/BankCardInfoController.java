@@ -130,4 +130,31 @@ public class BankCardInfoController {
             return ServerResponse.createByError();
     }
 
+    /**
+     * 添加银行卡
+     * @param bankCardInfo
+     * @param token
+     * @return
+     */
+    @RequestMapping("/addBankCardInfo")
+    @ResponseBody
+    public ServerResponse addBankCardInfo(BankCardInfo bankCardInfo, @RequestHeader(value = "token") String token) {
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+
+        Map<String, Object> userMap = baseCacheService.getHmap(token);
+        if (userMap == null || userMap.size() == 0)
+            return ServerResponse.createByError(ResponseCode.LOGIN_INVALID.getCode());
+
+        int userId = (int) userMap.get("id");
+        BankCardInfo _bankCardInfo = bankCardInfoService.findByUserId(userId);
+        if (_bankCardInfo == null) {
+            //可以绑定
+            bankCardInfo.setUserId(userId);
+            bankCardInfoService.addBankCardInfo(bankCardInfo);
+            return ServerResponse.createBySuccess();
+        } else
+            return ServerResponse.createByError(ResponseCode.CARDINFO_ALEARD_EXIST.getCode());
+    }
+
 }
