@@ -60,7 +60,10 @@ public class BankCardInfoController {
         if (username.startsWith(_username)) {
             int userId = (int) userMap.get("id");
             BankCardInfo bankCardInfo = bankCardInfoService.findByUserId(userId);
-            return ServerResponse.createBySuccess(bankCardInfo);
+            if (bankCardInfo != null)
+                return ServerResponse.createBySuccess(bankCardInfo);
+            else
+                return ServerResponse.createByError();
         } else
             return ServerResponse.createByError();
     }
@@ -101,7 +104,7 @@ public class BankCardInfoController {
         if (cityAreaNum == null)
             return ServerResponse.createByError();
 
-        List<City> cities = cityService.findCity(Integer.parseInt(cityAreaNum));
+        List<City> cities = cityService.findCity(cityAreaNum);
         return ServerResponse.createBySuccess(cities);
     }
 

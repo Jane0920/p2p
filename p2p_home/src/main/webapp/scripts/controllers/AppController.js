@@ -2747,7 +2747,7 @@ angular
                                     .success(
                                         function (res) {
                                             if (res.status == 1) {
-                                                var data = res.data[0];
+                                                var data = res.data;
                                                 $scope.bankUserObj.authPhone = data.phone;
                                             }
                                         });

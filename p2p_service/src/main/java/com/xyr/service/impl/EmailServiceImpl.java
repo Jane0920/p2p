@@ -21,8 +21,8 @@ import java.util.Map;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    //    @Autowired
-//    private JavaMailSender javaMailSender;
+    /*@Autowired
+    private JavaMailSender javaMailSender;*/
     @Autowired
     private JmsTemplate jmsTemplate;
 

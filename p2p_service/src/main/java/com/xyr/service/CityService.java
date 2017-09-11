@@ -20,7 +20,8 @@ public interface CityService {
      * 查找市/区
      *
      * @return
+     * @param parentCityAreaNum
      */
-    List<City> findCity(int parentCityAreaNum);
+    List<City> findCity(String parentCityAreaNum);
 
 }

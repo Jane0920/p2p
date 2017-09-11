@@ -12,6 +12,6 @@ public interface CityDAO extends JpaRepository<City, Integer> {
 
     List<City> findByParentCityAreaNumIsNull();
 
-    List<City> findByParentCityAreaNum(int parentCityAreaNum);
+    List<City> findByParentCityAreaNum(String parentCityAreaNum);
 
 }

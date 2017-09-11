@@ -23,7 +23,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public List<City> findCity(int parentCityAreaNum) {
+    public List<City> findCity(String parentCityAreaNum) {
         return cityDAO.findByParentCityAreaNum(parentCityAreaNum);
     }
 }
