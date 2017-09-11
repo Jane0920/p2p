@@ -263,19 +263,23 @@ angular.module('AppCommonService', ['ngCookies', 'ui.router'])
 
             //月乘
             getMonthRide: function ($str) {
-                return $http.post('/P2P_action/charges/MonthRide', $str, option.header);
+                return $http.post('/p2p_controller/charges/MonthRide', $str, option.header);
             },
             //月取
             getMonthFetch: function ($str) {
-                return $http.post('/P2P_action/charges/MonthFetch', $str, option.header);
+                return $http.post('/p2p_controller/charges/MonthFetch', $str, option.header);
             },
             //月存
             getMonthSave: function ($str) {
-                return $http.post('/P2P_action/charges/MonthSave', $str, option.header);
+                return $http.post('/p2p_controller/charges/MonthSave', $str, option.header);
             },
             //获取总的可用额
             getTotalRevenue: function ($str) {
-                return $http.post('/P2P_action/charges/totalRevenue', $str, option.header);
+                return $http.post('/p2p_controller/charges/totalRevenue', $str, option.header);
+            },
+            //充值
+            charge: function ($str) {
+                return $http.post('/p2p_controller/charges/charge', $str, option.header);
             },
 
             //购买中的计划

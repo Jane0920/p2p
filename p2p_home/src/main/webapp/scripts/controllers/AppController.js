@@ -2031,7 +2031,7 @@ angular
             // 获取可用余额
             PostService.personCenter('').success(function (res) {
                 if (res.status == 1) {
-                    $scope.usable = res.data[0].u_balance;
+                    $scope.usable = res.data.balance;
                 } else if (res.status == 15) {
                     AuthService.clearUserInfo();
                     $state.go('login', {}, {
@@ -2055,7 +2055,7 @@ angular
 
             $scope.phoneAuth = 0;
             $scope.IDAuth = 0;
-            PostService.getAbleAccout().success(function (res) {
+            /*PostService.getAbleAccout().success(function (res) {
                 if (res.status == 1) {
                     var _data = res.data;
                     $scope.userid = _data.userId;
@@ -2067,14 +2067,14 @@ angular
                 } else {
                     hmd.popupErrorInfo(res.status);
                 }
-            });
+             });*/
 
             $scope.is_phone_pass = true;
             $scope.is_auth_pass = true;
             // 获取安全级别
             UserService.getSafeLevel('').success(function (res) {
                 if (res.status == 1) {
-                    var data = res.data[0];
+                    var data = res.data;
                     $scope.phoneAuth = data.phoneStatus;
                     $scope.IDAuth = data.realNameStatus;
                     if (!$scope.phoneAuth) {
@@ -2314,7 +2314,21 @@ angular
                     });
                     return false;
                 } else {
-                    $('#alertBox').modal({
+                    var data = {
+                        "channel": $scope.selectProvider,
+                        "chargeBank": $scope.selectBankId,
+                        "chargeMoney": $scope.money
+                    };
+                    PostService.charge(objToStr(data))
+                        .success(function (res) {
+                            if (res.status != 1) {
+                                hmd.popupErrorInfo(res.status);
+                            } else {
+                                $scope.usable = res.data;
+                            }
+                        });
+
+                    /*$('#alertBox').modal({
                         'backdrop': 'static'
                     });
                     OpenWindow = window.open("");
@@ -2327,7 +2341,7 @@ angular
                     OpenWindow.document
                         .write('<script>var channels = "'
                             + $scope.selectProvider
-                            + '";$.ajax({type: "POST",url: "/itcast_p2p_action/charges/charge", data: {"channel":"'
+                     + '";$.ajax({type: "POST",url: "/p2p_controller/charges/charge", data: {"channel":"'
                             + $scope.selectProvider
                             + '","chargeBank":"'
                             + $scope.selectBankId
@@ -2335,14 +2349,14 @@ angular
                             + $scope.money
                             + '},dataType: "json",beforeSend: function(request){request.setRequestHeader("token", "'
                             + token
-                            + '");},success: function(res){if(res.status == 1){var data = res.data;')
+                     + '");},success: function(res){if(res.status == 1){var data = res.data;}}})')
                     OpenWindow.document
                         .write('if(channels == "chinabank"){$("input[name=\'v_mid\']").val(data.v_mid);$("input[name=\'v_oid\']").val(data.v_oid);$("input[name=\'key\']").val(data.key);$("input[name=\'v_amount\']").val(data.v_amount);$("input[name=\'v_moneytype\']").val(data.v_moneytype);$("input[name=\'v_url\']").val(data.v_url);$("input[name=\'v_md5info\']").val(data.v_md5info);$("input[name=\'pmode_id\']").val(data.pmode_id);$("input[name=\'remark2\']").val(data.remark2);document.getElementById("chinabank").submit();');
                     OpenWindow.document
                         .write('}else if(channels == "epro"){$("input[name=\'p0_Cmd\']").val(data.p0_Cmd);$("input[name=\'p1_MerId\']").val(data.p1_MerId);$("input[name=\'p2_Order\']").val(data.p2_Order);$("input[name=\'p3_Amt\']").val(data.p3_Amt);$("input[name=\'p4_Cur\']").val(data.p4_Cur);$("input[name=\'p8_Url\']").val(data.p8_Url);$("input[name=\'p9_SAF\']").val(data.p9_SAF);$("input[name=\'pa_MP\']").val(data.pa_MP);$("input[name=\'pd_FrpId\']").val(data.pd_FrpId);$("input[name=\'pr_NeedResponse\']").val(data.pr_NeedResponse);$("input[name=\'hmac\']").val(data.hmac);document.getElementById("yeepay").submit();}');
                     OpenWindow.document
                         .write('else{$("#msg").html("无效的支付渠道");}}else{window.location.href="#/login"}}});</script></body></html>');
-                    OpenWindow.document.close();
+                     OpenWindow.document.close();*/
                 }
             };
         })
