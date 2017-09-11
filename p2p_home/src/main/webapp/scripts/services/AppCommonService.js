@@ -11,7 +11,7 @@ var option = {
         'api_paymentpwd': '/itcast_p2p_action/paymentpwd/',
         'api_extracts': '/itcast_p2p_action/extracts/',  //提现与支付功能
         'api_bankcardInfo': '/p2p_controller/bankCardInfo/',
-        'api_charges': '/itcast_p2p_action/charges/'
+        'api_charges': '/p2p_controller/charges/'
     },
     'header': {
         'headers': {

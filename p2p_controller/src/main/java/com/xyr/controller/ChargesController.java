@@ -2,6 +2,7 @@ package com.xyr.controller;
 
 import com.xyr.cache.BaseCacheService;
 import com.xyr.domain.BankCardInfo;
+import com.xyr.domain.ProductAccount;
 import com.xyr.service.BankCardInfoService;
 import com.xyr.service.ChargesService;
 import com.xyr.service.UserAccountService;
@@ -32,6 +33,13 @@ public class ChargesController {
     @Autowired
     private BankCardInfoService bankCardInfoService;
 
+    /**
+     * 用户充值
+     *
+     * @param token
+     * @param chargeMoney
+     * @return
+     */
     @RequestMapping("/charge")
     @ResponseBody
     public ServerResponse charge(@RequestHeader(value = "token") String token, Double chargeMoney) {
@@ -49,6 +57,22 @@ public class ChargesController {
         chargesService.reCharge(chargeMoney, bankCardInfo.getBankCardNum());
 
         return userAccountService.updateBalanceAndTotal(chargeMoney, userId);
+    }
+
+    /**
+     * @param token
+     * @param productAccount
+     * @return
+     */
+    @RequestMapping("/addMayTake")
+    @ResponseBody
+    public ServerResponse addMayTake(@RequestHeader(value = "token") String token, ProductAccount productAccount) {
+        if (StringUtils.isEmpty(token))
+            return ServerResponse.createByError(ResponseCode.NULL_TOKEN.getCode());
+
+        Map<String, Object> userMap = baseCacheService.getHmap(token);
+        if (userMap == null || userMap.size() == 0)
+            return ServerResponse.createByError(ResponseCode.LOGIN_INVALID.getCode());
     }
 
 }
