@@ -1,23 +1,23 @@
 package com.xyr.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
- * @ClassName: AccountLog
- * @Description: 交易流水记录表
+ * Created by xyr on 2017/9/12.
+ *  @Description: 交易流水记录表
  */
 @Entity
 @Table(name = "t_account_log")
 public class AccountLog {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "a_id", nullable = false)
     private int aId;
 
@@ -25,37 +25,37 @@ public class AccountLog {
     private int aUserId;                    //用户id
 
     @Column(name = "a_main_account_id")
-    private int aMainAccountId;                //主账户id
+    private int aMainAccountId;             //主账户id
 
     @Column(name = "p_id")
     private int pId;                //投资记录主键
 
     @Column(name = "a_current_period")
-    private int aCurrentPeriod;                //当前期
+    private int aCurrentPeriod;             //当前期
 
     @Column(name = "a_receive_or_pay")
-    private int aReceiveOrPay;                //收付
+    private int aReceiveOrPay;              //收付
 
     @Column(name = "a_transfer_serial_no")
-    private String aTransferSerialNo;        //交易流水号
+    private String aTransferSerialNo;       //交易流水号
 
     @Column(name = "a_date")
-    private Date aDate;                        //交易时间
+    private Date aDate;                     //交易时间
 
     @Column(name = "a_type")
-    private int aType;                        //交易类型
+    private int aType;                      //交易类型
 
     @Column(name = "a_transfer_status")
     private int aTransferStatus;            //交易状态
 
     @Column(name = "a_before_Trading_money")
-    private Double aBeforeTradingMoney;        //交易前金额
+    private Double aBeforeTradingMoney;     //交易前金额
 
     @Column(name = "a_amount")
-    private Double aAmount;                    //金额
+    private Double aAmount;                 //金额
 
     @Column(name = "a_after_Trading_money")
-    private Double aAfterTradingMoney;        //交易后金额
+    private Double aAfterTradingMoney;      //交易后金额
 
     @Column(name = "a_descreption")
     private String aDescreption;                //交易详情

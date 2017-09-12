@@ -1,16 +1,16 @@
 package com.xyr.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Date;
 
 /**
- * @ClassName: FundingNotMatchedModel
+ * Created by xyr on 2017/9/12.
  * @Description: 待匹配资金实体类
  */
 @Entity
@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 public class FundingNotMatchedModel {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "F_ID", nullable = false)
     private int fId;
 
@@ -26,16 +26,16 @@ public class FundingNotMatchedModel {
     private int fInvestRecordId = 0;    //投资记录
 
     @Column(name = "f_not_matched_money")
-    private Double fNotMatchedMoney = 0.0;    //待匹配金额
+    private Double fNotMatchedMoney = 0.0;  //待匹配金额
 
     @Column(name = "f_founding_type")
-    private int fFoundingType = 0;    //资金类型
+    private int fFoundingType = 0;  //资金类型
 
     @Column(name = "f_founding_weight")
     private int fFoundingWeight = 0;    //资金
 
     @Column(name = "f_is_locked")
-    private int fIsLocked = 0;    //是否锁定
+    private int fIsLocked = 0;  //是否锁定
 
     @Column(name = "f_create_date")
     private Date fCreateDate = new Date(0); //创建时间
@@ -62,63 +62,48 @@ public class FundingNotMatchedModel {
     public int getfId() {
         return fId;
     }
-
     public void setfId(int fId) {
         this.fId = fId;
     }
-
     public int getfInvestRecordId() {
         return fInvestRecordId;
     }
-
     public void setfInvestRecordId(int fInvestRecordId) {
         this.fInvestRecordId = fInvestRecordId;
     }
-
     public Double getfNotMatchedMoney() {
         return fNotMatchedMoney;
     }
-
     public void setfNotMatchedMoney(Double fNotMatchedMoney) {
         this.fNotMatchedMoney = fNotMatchedMoney;
     }
-
     public int getfFoundingType() {
         return fFoundingType;
     }
-
     public void setfFoundingType(int fFoundingType) {
         this.fFoundingType = fFoundingType;
     }
-
     public int getfFoundingWeight() {
         return fFoundingWeight;
     }
-
     public void setfFoundingWeight(int fFoundingWeight) {
         this.fFoundingWeight = fFoundingWeight;
     }
-
     public int getfIsLocked() {
         return fIsLocked;
     }
-
     public void setfIsLocked(int fIsLocked) {
         this.fIsLocked = fIsLocked;
     }
-
     public Date getfCreateDate() {
         return fCreateDate;
     }
-
     public void setfCreateDate(Date fCreateDate) {
         this.fCreateDate = fCreateDate;
     }
-
     public int getUserId() {
         return userId;
     }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }

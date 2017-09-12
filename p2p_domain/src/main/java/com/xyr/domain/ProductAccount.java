@@ -1,26 +1,26 @@
 package com.xyr.domain;
 
-import java.util.Date;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import java.util.Date;
 
 /**
+ * Created by xyr on 2017/9/12.
  * 类描述：用户投资实体类
  */
-
-@Entity(name = "ProductAccount")
+@Entity
 @Table(name = "t_product_account")
 public class ProductAccount {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "p_id", nullable = false)
     private int pId; //主键
 
@@ -249,9 +249,11 @@ public class ProductAccount {
     }
 
 
+
     public Double getpEarnings() {
         return pEarnings;
     }
+
 
 
     public void setpEarnings(Double pEarnings) {
@@ -568,6 +570,7 @@ public class ProductAccount {
 
     /**
      * @return pEndDate
+     *
      */
 
     public Date getpEndDate() {
@@ -576,6 +579,7 @@ public class ProductAccount {
 
     /**
      * @param pEndDate 要设置的 pEndDate
+     *
      */
     public void setpEndDate(Date pEndDate) {
         this.pEndDate = pEndDate;

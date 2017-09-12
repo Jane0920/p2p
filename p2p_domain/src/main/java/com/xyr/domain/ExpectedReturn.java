@@ -1,22 +1,23 @@
-﻿
-
 package com.xyr.domain;
-
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
-//预期收益实体类
-
+/**
+ * Created by xyr on 2017/9/12.
+ * 预期收益实体类
+ */
 @Entity
 @Table(name = "T_Expected_Return")
 public class ExpectedReturn {
+
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "T_ID", nullable = false)
     private Integer id;  //主键
 
@@ -39,9 +40,11 @@ public class ExpectedReturn {
     private Date createDate; //创建日期
 
 
+
     /**
      * <p>Title: </p>
      * <p>Description: </p>
+     *
      */
     public ExpectedReturn() {
         super();
@@ -56,6 +59,7 @@ public class ExpectedReturn {
 
     /**
      * @return id
+     *
      */
 
     public Integer getId() {
@@ -64,6 +68,7 @@ public class ExpectedReturn {
 
     /**
      * @param id 要设置的 id
+     *
      */
     public void setId(Integer id) {
         this.id = id;
@@ -71,6 +76,7 @@ public class ExpectedReturn {
 
     /**
      * @return userId
+     *
      */
 
     public Integer getUserId() {
@@ -79,6 +85,7 @@ public class ExpectedReturn {
 
     /**
      * @param userId 要设置的 userId
+     *
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -86,6 +93,7 @@ public class ExpectedReturn {
 
     /**
      * @return productId
+     *
      */
 
     public Integer getProductId() {
@@ -94,6 +102,7 @@ public class ExpectedReturn {
 
     /**
      * @param productId 要设置的 productId
+     *
      */
     public void setProductId(Integer productId) {
         this.productId = productId;
@@ -101,6 +110,7 @@ public class ExpectedReturn {
 
     /**
      * @return investRcord
+     *
      */
 
     public Integer getInvestRcord() {
@@ -109,6 +119,7 @@ public class ExpectedReturn {
 
     /**
      * @param investRcord 要设置的 investRcord
+     *
      */
     public void setInvestRcord(Integer investRcord) {
         this.investRcord = investRcord;
@@ -116,6 +127,7 @@ public class ExpectedReturn {
 
     /**
      * @return expectedDate
+     *
      */
 
     public String getExpectedDate() {
@@ -124,6 +136,7 @@ public class ExpectedReturn {
 
     /**
      * @param expectedDate 要设置的 expectedDate
+     *
      */
     public void setExpectedDate(String expectedDate) {
         this.expectedDate = expectedDate;
@@ -131,6 +144,7 @@ public class ExpectedReturn {
 
     /**
      * @return expectedMoney
+     *
      */
 
     public Double getExpectedMoney() {
@@ -139,6 +153,7 @@ public class ExpectedReturn {
 
     /**
      * @param expectedMoney 要设置的 expectedMoney
+     *
      */
     public void setExpectedMoney(Double expectedMoney) {
         this.expectedMoney = expectedMoney;
@@ -146,6 +161,7 @@ public class ExpectedReturn {
 
     /**
      * @return createDate
+     *
      */
 
     public Date getCreateDate() {
@@ -154,6 +170,7 @@ public class ExpectedReturn {
 
     /**
      * @param createDate 要设置的 createDate
+     *
      */
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;

@@ -1,15 +1,17 @@
 package com.xyr.domain;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 /**
+ * Created by xyr on 2017/9/12.
  * 类描述：权重规则设置表  实体
  */
 @Entity
@@ -17,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class WeigthRule {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "T_ID", nullable = false)
     private Integer id;//主键
 
@@ -43,8 +45,10 @@ public class WeigthRule {
     private String weigthRuleClassName;// 权重类别名称
 
 
+
     /**
      * @return id
+     *
      */
 
     public Integer getId() {
@@ -52,16 +56,20 @@ public class WeigthRule {
     }
 
 
+
     /**
      * @param id 要设置的 id
+     *
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
 
+
     /**
      * @return serialNo
+     *
      */
 
     public String getSerialNo() {
@@ -69,16 +77,20 @@ public class WeigthRule {
     }
 
 
+
     /**
      * @param serialNo 要设置的 serialNo
+     *
      */
     public void setSerialNo(String serialNo) {
         SerialNo = serialNo;
     }
 
 
+
     /**
      * @return weigthRuleName
+     *
      */
 
     public String getWeigthRuleName() {
@@ -86,16 +98,20 @@ public class WeigthRule {
     }
 
 
+
     /**
      * @param weigthRuleName 要设置的 weigthRuleName
+     *
      */
     public void setWeigthRuleName(String weigthRuleName) {
         this.weigthRuleName = weigthRuleName;
     }
 
 
+
     /**
      * @return weigthRuleClass
+     *
      */
 
     public Integer getWeigthRuleClass() {
@@ -103,8 +119,10 @@ public class WeigthRule {
     }
 
 
+
     /**
      * @param weigthRuleClass 要设置的 weigthRuleClass
+     *
      */
     public void setWeigthRuleClass(Integer weigthRuleClass) {
         this.weigthRuleClass = weigthRuleClass;
@@ -113,6 +131,7 @@ public class WeigthRule {
 
     /**
      * @return weigthType
+     *
      */
 
     public Integer getWeigthType() {
@@ -122,6 +141,7 @@ public class WeigthRule {
 
     /**
      * @param weigthType 要设置的 weigthType
+     *
      */
     public void setWeigthType(Integer weigthType) {
         this.weigthType = weigthType;
@@ -130,6 +150,7 @@ public class WeigthRule {
 
     /**
      * @return weigthValue
+     *
      */
 
     public Integer getWeigthValue() {
@@ -139,6 +160,7 @@ public class WeigthRule {
 
     /**
      * @param weigthValue 要设置的 weigthValue
+     *
      */
     public void setWeigthValue(Integer weigthValue) {
         this.weigthValue = weigthValue;
@@ -147,6 +169,7 @@ public class WeigthRule {
 
     /**
      * @return order
+     *
      */
 
     public int getOrder() {
@@ -156,6 +179,7 @@ public class WeigthRule {
 
     /**
      * @param order 要设置的 order
+     *
      */
     public void setOrder(int order) {
         this.order = order;
@@ -164,6 +188,7 @@ public class WeigthRule {
 
     /**
      * @return weigthRuleClassName
+     *
      */
 
     public String getWeigthRuleClassName() {
@@ -173,6 +198,7 @@ public class WeigthRule {
 
     /**
      * @param weigthRuleClassName 要设置的 weigthRuleClassName
+     *
      */
     public void setWeigthRuleClassName(String weigthRuleClassName) {
         this.weigthRuleClassName = weigthRuleClassName;
@@ -183,6 +209,5 @@ public class WeigthRule {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
-
 
 }

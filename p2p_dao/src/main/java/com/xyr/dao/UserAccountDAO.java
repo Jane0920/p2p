@@ -16,4 +16,8 @@ public interface UserAccountDAO extends JpaRepository<UserAccount, Integer> {
     @Query("update UserAccount set total = ?1, balance = ?2 where userId = ?3")
     void updateBalanceAndTotal(double total, double balance, int userId);
 
+    @Modifying
+    @Query("update UserAccount set balance = ?1, inverstmentW = ?2, interestTotal = ?3, recyclingInterest = ?4, inverstmentA = ?5 where id = ?6")
+    void updateNewInvestmentUserAccount(double balance, double inverstmentW, double interestTotal, double recyclingInterest, double inverstmentA, int userId);
+
 }
