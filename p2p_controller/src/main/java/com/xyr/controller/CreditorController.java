@@ -103,4 +103,10 @@ public class CreditorController {
         return ServerResponse.createBySuccess();
     }
 
+    @RequestMapping("/download")
+    @ResponseBody
+    public void download() {
+
+    }
+
 }
