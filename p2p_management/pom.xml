@@ -28,7 +28,7 @@
         <cargo.tomcat.manager.password>root</cargo.tomcat.manager.password>
     </properties>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -41,23 +41,23 @@
                 </configuration>
             </plugin>
 
-            &lt;!&ndash;tomcat运行插件通过cargo-maven2-plugin插件配置Tomcat自动发布（cargo:deploy）&ndash;&gt;
+            <!--tomcat运行插件通过cargo-maven2-plugin插件配置Tomcat自动发布（cargo:deploy）-->
             <plugin>
-                &lt;!&ndash; 指定插件名称及版本号 &ndash;&gt;
+                <!-- 指定插件名称及版本号 -->
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.4.15</version>
-                &lt;!&ndash; 插件的Tomcat6.x配置 &ndash;&gt;
+                <!-- 插件的Tomcat6.x配置 -->
                 <configuration>
-                    &lt;!&ndash;<wait>true</wait> &ndash;&gt;  &lt;!&ndash;是否说明，操作start、stop等后续操作必须等前面操作完成才能继续 &ndash;&gt;
-                    <container>&lt;!&ndash; 容器的配置 &ndash;&gt;
-                        <containerId>tomcat8x</containerId> &lt;!&ndash; 指定tomcat版本 &ndash;&gt;
-                        <type>remote</type> &lt;!&ndash; 指定类型：standalone, installed等 &ndash;&gt;
+                    <!--<wait>true</wait> -->  <!--是否说明，操作start、stop等后续操作必须等前面操作完成才能继续 -->
+                    <container><!-- 容器的配置 -->
+                        <containerId>tomcat8x</containerId> <!-- 指定tomcat版本 -->
+                        <type>remote</type> <!-- 指定类型：standalone, installed等 -->
                     </container>
-                    <configuration> &lt;!&ndash; 具体的配置 &ndash;&gt;
-                        <type>runtime</type>  &lt;!&ndash; 类型，existing:存在 &ndash;&gt;
-                        <properties> &lt;!&ndash; 配置属性 &ndash;&gt;
-                            &lt;!&ndash; 监听端口配置;方便远程调试 &ndash;&gt;
+                    <configuration> <!-- 具体的配置 -->
+                        <type>runtime</type>  <!-- 类型，existing:存在 -->
+                        <properties> <!-- 配置属性 -->
+                            <!-- 监听端口配置;方便远程调试 -->
                             <cargo.jvmargs>
                                 -Xdebug
                                 -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
@@ -68,18 +68,18 @@
                             <cargo.servlet.port>8080</cargo.servlet.port>
                             <cargo.hostname>106.14.149.59</cargo.hostname>
                             <cargo.tomcat.ajp.port>8009
-                            </cargo.tomcat.ajp.port>                                   &lt;!&ndash; Tomcat密码 &ndash;&gt;
+                            </cargo.tomcat.ajp.port>                                   <!-- Tomcat密码 -->
                         </properties>
                     </configuration>
                     <deployables>
-                        &lt;!&ndash;  Specified in the deployable to deploy your  webapp &ndash;&gt;
+                        <!--  Specified in the deployable to deploy your  webapp -->
                         <deployable>
-                            &lt;!&ndash;  Options, Ping destination address to determine success or failure of the project address released   &ndash;&gt;
-                            &lt;!&ndash;<pingURL>&ndash;&gt;
-                            &lt;!&ndash;${cargo.tomcat.manager.protocol}://${cargo.tomcat.manager.hostname}:${cargo.tomcat.manager.port}/${myproject.name}&ndash;&gt;
-                            &lt;!&ndash;</pingURL>&ndash;&gt;
-                            &lt;!&ndash;  Options, Ping response time target address  ,  Default 20000 ms   &ndash;&gt;
-                            &lt;!&ndash;<pingTimeout>300000</pingTimeout>&ndash;&gt;
+                            <!--  Options, Ping destination address to determine success or failure of the project address released   -->
+                            <!--<pingURL>-->
+                            <!--${cargo.tomcat.manager.protocol}://${cargo.tomcat.manager.hostname}:${cargo.tomcat.manager.port}/${myproject.name}-->
+                            <!--</pingURL>-->
+                            <!--  Options, Ping response time target address  ,  Default 20000 ms   -->
+                            <!--<pingTimeout>300000</pingTimeout>-->
                             <groupId>${cargo.project.groupid}</groupId>
                             <artifactId>${cargo.project.artifactid}</artifactId>
                             <type>war</type>
@@ -91,25 +91,25 @@
 
                 </configuration>
                 <executions>
-                    &lt;!&ndash; 执行的动作 &ndash;&gt;
+                    <!-- 执行的动作 -->
                     <execution>
                         <id>verify-deployer</id>
-                        <phase>install</phase> &lt;!&ndash; 解析install &ndash;&gt;
+                        <phase>install</phase> <!-- 解析install -->
                         <goals>
                             <goal>deployer-redeploy</goal>
                         </goals>
                     </execution>
-                    &lt;!&ndash;<execution>&ndash;&gt;
-                    &lt;!&ndash;<id>clean-deployer</id>&ndash;&gt;
-                    &lt;!&ndash;<phase>clean</phase>&ndash;&gt;
-                    &lt;!&ndash;<goals>&ndash;&gt;
-                    &lt;!&ndash;<goal>deployer-undeploy</goal>&ndash;&gt;
-                    &lt;!&ndash;</goals>&ndash;&gt;
-                    &lt;!&ndash;</execution>&ndash;&gt;
+                    <!--<execution>-->
+                    <!--<id>clean-deployer</id>-->
+                    <!--<phase>clean</phase>-->
+                    <!--<goals>-->
+                    <!--<goal>deployer-undeploy</goal>-->
+                    <!--</goals>-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 
 
 </project>

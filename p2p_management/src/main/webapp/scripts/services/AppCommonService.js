@@ -6,7 +6,7 @@ option.url = {
     'api_user': '/itcast_p2p_action/user/',
     'api_accountrecord': '/itcast_p2p_action/accountrecord/',
     'api_product': '/p2p_controller/product/',
-    'api_creditor': '/itcast_p2p_action/creditor/',
+    'api_creditor': '/p2p_controller/creditor/',
     'api_match': '/itcast_p2p_action/matchManagement/',
     'api_message': '/itcast_p2p_action/',
     'api_UsersFunds': '/itcast_p2p_action/UsersFunds/'

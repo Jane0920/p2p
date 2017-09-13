@@ -12,7 +12,7 @@
     <context:component-scan base-package="com.xyr.controller" annotation-config="true"/>
 
     <!-- 注册8个类的实例(RequestMappingHandlerMapping,BeanNameUrlHandlerMapping等) -->
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
@@ -41,7 +41,19 @@
 
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <!-- 第二步： 创建convertion-Service ，并注入dateConvert-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="dateConvert"/>
+            </set>
+        </property>
+    </bean>
+    <!-- 第一步:  创建自定义日期转换规则 -->
+    <bean id="dateConvert" class="com.xyr.utils.DateConvert"/>
     <!--<mvc:default-servlet-handler/>-->
+
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10485760"/> <!-- 10m -->
