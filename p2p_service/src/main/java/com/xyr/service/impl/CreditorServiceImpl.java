@@ -6,6 +6,8 @@ import com.xyr.service.CreditorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by xyr on 2017/9/13.
  */
@@ -18,5 +20,10 @@ public class CreditorServiceImpl implements CreditorService {
     @Override
     public void addCreditor(CreditorModel creditorModel) {
         creditorDAO.saveAndFlush(creditorModel);
+    }
+
+    @Override
+    public void addCreditor(List<CreditorModel> creditorModels) {
+        creditorDAO.save(creditorModels);
     }
 }

@@ -39,6 +39,7 @@
                     <warName>
                         p2p_controller
                     </warName>
+                    <includeEmptyDirectories>true</includeEmptyDirectories>
                 </configuration>
             </plugin>
 
