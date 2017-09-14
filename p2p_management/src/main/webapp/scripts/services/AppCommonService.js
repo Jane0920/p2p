@@ -127,6 +127,15 @@ angular
                         + 'addCreditor', $str, option.header);
 
                     // /itcast_p2p_action/creditor/addCreditor
+                },
+                // 债权查询
+                checkCredit: function ($str) {
+                    return $http.post(option.url.api_creditor
+                        + 'getCreditorlist', $str, option.header);
+                },
+                // 债权审核
+                verifyCredit: function ($str) {
+                    return $http.post(option.url.api_creditor + 'checkCreditor', $str, option.header);
                 }
             }
         })

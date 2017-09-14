@@ -1,10 +1,12 @@
 package com.xyr.controller;
 
 import com.xyr.domain.CreditorModel;
+import com.xyr.domain.CreditorSumModel;
 import com.xyr.service.CreditorService;
 import com.xyr.utils.ClaimsType;
 import com.xyr.utils.Constant;
 import com.xyr.utils.ConstantUtil;
+import com.xyr.utils.DateUtil;
 import com.xyr.utils.RandomNumberUtil;
 import com.xyr.utils.ResponseCode;
 import com.xyr.utils.ServerResponse;
@@ -28,8 +30,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -262,6 +267,127 @@ public class CreditorController {
         }
 
         return ServerResponse.createBySuccess();
+    }
+
+    @RequestMapping("/getCreditorlist")
+    @ResponseBody
+    public ServerResponse getCreditorlist(String dDebtNo, String token, String dDebtTransferredDateStart,
+                                          String dDebtTransferredDateEnd, String dContractNo, String dDebtStatus,
+                                          String dMatchedStatus, String dDebtMonthRateStart, String dDebtMonthRateEnd,
+                                          String offsetnum, HttpServletResponse response) {
+        HashMap<String, Object> mapOrg = new HashMap<String, Object>();
+        // 自定义级别的日志 用来记录关键操作到数据库
+
+        if (StringUtils.isEmpty(offsetnum)) { // 判断开始条数
+            // logger.debug(offsetnum + "不能为空");
+            return ServerResponse.createByError(ResponseCode.IMPORT_FALIED.getCode());
+        }
+        if (offsetnum != null && !"".equals(offsetnum)) {
+            mapOrg.put("offsetnum", Integer.valueOf(offsetnum));
+        } else {
+            mapOrg.put("offsetnum", null);
+        }
+        if (dDebtNo != null && !"".equals(dDebtNo)) {
+            mapOrg.put("dDebtNo", dDebtNo);
+        } else {
+            mapOrg.put("dDebtNo", null);
+        }
+        if (dDebtStatus != null && !"".equals(dDebtStatus)) {
+            mapOrg.put("dDebtStatus", Integer.valueOf(dDebtStatus));
+        } else {
+            mapOrg.put("dDebtStatus", null);
+        }
+        if (dMatchedStatus != null && !"".equals(dMatchedStatus)) {
+            mapOrg.put("dMatchedStatus", Integer.valueOf(dMatchedStatus));
+        } else {
+            mapOrg.put("dMatchedStatus", null);
+        }
+        if (dContractNo != null && !"".equals(dContractNo)) {
+            mapOrg.put("dContractNo", dContractNo);
+        } else {
+            mapOrg.put("dContractNo", null);
+        }
+        if (dDebtMonthRateStart != null && !"".equals(dDebtMonthRateStart)) {
+            mapOrg.put("dDebtMonthRateStart", Double.valueOf(dDebtMonthRateStart));
+        } else {
+            mapOrg.put("dDebtMonthRateStart", null);
+        }
+        if (dDebtMonthRateEnd != null && !"".equals(dDebtMonthRateEnd)) {
+            mapOrg.put("dDebtMonthRateEnd", Double.valueOf(dDebtMonthRateEnd));
+        } else {
+            mapOrg.put("dDebtMonthRateEnd", null);
+        }
+        if (dDebtTransferredDateStart != null && !"".equals(dDebtTransferredDateStart)) {
+            mapOrg.put("dDebtTransferredDateStart", DateUtil.getStartDate(dDebtTransferredDateStart));
+        } else {
+            mapOrg.put("dDebtTransferredDateStart", null);
+        }
+        if (dDebtTransferredDateEnd != null && !"".equals(dDebtTransferredDateEnd)) {
+            mapOrg.put("dDebtTransferredDateEnd", DateUtil.getEndDate(dDebtTransferredDateEnd));
+        } else {
+            mapOrg.put("dDebtTransferredDateEnd", null);
+        }
+
+        int limitnum = 20;
+        int offsetN = Integer.valueOf(offsetnum);
+        offsetN = (offsetN - 1) * limitnum;
+        mapOrg.put("offsetN", Integer.valueOf(offsetN));
+        mapOrg.put("limitnum", limitnum);
+
+        List<CreditorModel> data = creditorService.findCreditorByCondition(mapOrg);
+        for (Iterator iterator = data.iterator(); iterator.hasNext(); ) {
+            CreditorModel creditorModel = (CreditorModel) iterator.next();
+            if (creditorModel.getDebtStatus() == 11301) {
+                creditorModel.setDebtStatusDesc("未审核");
+            } else if (creditorModel.getDebtStatus() == 11302) {
+                creditorModel.setDebtStatusDesc("已审核");
+            }
+
+            // 匹配状态 int 部分匹配11401, 完全匹配11402, 未匹配11403, 正在匹配11404
+            if (creditorModel.getMatchedStatus() == 11403) {
+                creditorModel.setMatchedStatusDesc("未匹配");
+            } else if (creditorModel.getMatchedStatus() == 11401) {
+                creditorModel.setMatchedStatusDesc("部分匹配");
+            } else if (creditorModel.getMatchedStatus() == 11402) {
+                creditorModel.setMatchedStatusDesc("完全匹配");
+            } else if (creditorModel.getMatchedStatus() == 11404) {
+                creditorModel.setMatchedStatusDesc("正在匹配");
+            }
+        }
+//			logger.debug("债权查询结果" + data);
+        List<Object[]> datasum = (List<Object[]>) creditorService.findCreditorBySum(mapOrg);
+        Iterator datasumIterator = datasum.iterator();
+        ArrayList<CreditorSumModel> datasumSecond = new ArrayList<CreditorSumModel>();
+        while (datasumIterator.hasNext()) {
+            Object[] datasumItem = (Object[]) datasumIterator.next();
+            CreditorSumModel creditorSumModel = new CreditorSumModel();
+            if (datasumItem[2] != null) {
+                creditorSumModel.setdAvailableMoneySum(new Double(datasumItem[2].toString()));
+            } else {
+                creditorSumModel.setdAvailableMoneySum(0.0);
+            }
+
+            if (datasumItem[1] != null) {
+                creditorSumModel.setdDebtMoneySum(new Double(datasumItem[1].toString()));
+            } else {
+                creditorSumModel.setdDebtMoneySum(0.0);
+            }
+
+            if (datasumItem[0] != null) {
+                creditorSumModel.setdIdCount(new Integer(datasumItem[0].toString()));
+            } else {
+                creditorSumModel.setdIdCount(0);
+            }
+
+            datasumSecond.add(creditorSumModel);
+        }
+
+        // logger.debug("债权查询结果"+datasumSecond);
+        HashMap<String, Object> datemap = new HashMap<String, Object>();
+        datemap.put("date", data);
+        datemap.put("datasum", datasumSecond);
+
+        return ServerResponse.createBySuccess(datemap);
     }
 
 }

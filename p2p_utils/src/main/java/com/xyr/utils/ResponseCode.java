@@ -36,7 +36,8 @@ public enum ResponseCode {
     ERROR_OF_USERNAME_PASSWORD(66, "用户名密码错误"),
     PHONE_ALREADY_REGISTER(67, "手机已经被注册"),
     ALREADY_EXIST_OF_USERNAME(70, "用户名已经存在"),
-    ADD_FALIUE(81, "添加失败");
+    ADD_FALIUE(81, "添加失败"),
+    IMPORT_FALIED(101, "导入数据失败，xx条出现错误");
 
     private final int code;
     private final String value;
