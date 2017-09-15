@@ -33,6 +33,8 @@ public enum ResponseCode {
     DEBT_TRANSFERRED_PERIOD_IS_EMPTY(53, "债权转入期限（月）不能为空"),
     DEBT_RANSFER_OUT_DATE_IS_EMPTY(54, "债权转出日期不能为空"),
     CREDITOR_IS_EMPTY(55, "债权人不能为空"),
+    SELECTED_IS_NULL(61, "未选中数据"),
+    AUDIT_STATUS_IS_NULL(62, "审核状态不能为空"),
     ERROR_OF_USERNAME_PASSWORD(66, "用户名密码错误"),
     PHONE_ALREADY_REGISTER(67, "手机已经被注册"),
     ALREADY_EXIST_OF_USERNAME(70, "用户名已经存在"),

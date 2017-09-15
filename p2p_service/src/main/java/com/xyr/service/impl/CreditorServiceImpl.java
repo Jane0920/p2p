@@ -55,6 +55,7 @@ public class CreditorServiceImpl implements CreditorService {
                 //查找到
                 //2.修改债权的状态
                 creditor.setDebtStatus(ClaimsType.CHECKED);
+                creditorDAO.saveAndFlush(creditor);
             }
         }
 

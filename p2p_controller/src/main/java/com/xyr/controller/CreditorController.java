@@ -408,4 +408,23 @@ public class CreditorController {
         return ServerResponse.createBySuccess(datemap);
     }
 
+    /**
+     * 审核债权
+     *
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/checkCreditor")
+    @ResponseBody
+    public ServerResponse checkCreditor(String ids) {
+        if (StringUtils.isEmpty(ids.toString())) {
+            // logger.debug("未选中需要债权审核的数据！");
+            return ServerResponse.createByError(ResponseCode.SELECTED_IS_NULL.getCode());
+        }
+        String[] debtIds = ids.split(",");
+
+        creditorService.checkCreditor(debtIds);
+        return ServerResponse.createBySuccess();
+    }
+
 }
