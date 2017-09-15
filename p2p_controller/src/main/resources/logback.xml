@@ -64,9 +64,10 @@
     <!--<appender-ref ref="console"/>-->
     <!--</logger>-->
 
-    <!--<logger name="java.sql.PreparedStatement" level="DEBUG">-->
-    <!--<appender-ref ref="console"/>-->
-    <!--</logger>-->
+    <logger name="java.sql.PreparedStatement" level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="error"/>
+    </logger>
 
 
     <root level="DEBUG">

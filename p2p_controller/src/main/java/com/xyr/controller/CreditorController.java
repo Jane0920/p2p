@@ -269,6 +269,22 @@ public class CreditorController {
         return ServerResponse.createBySuccess();
     }
 
+    /**
+     * 查询债权
+     *
+     * @param dDebtNo                   标的编号 债权的编号
+     * @param token
+     * @param dDebtTransferredDateStart 债权转入日期
+     * @param dDebtTransferredDateEnd   债权转出日期
+     * @param dContractNo               借款的id
+     * @param dDebtStatus               债权的状态
+     * @param dMatchedStatus            债权的匹配状态
+     * @param dDebtMonthRateStart
+     * @param dDebtMonthRateEnd
+     * @param offsetnum
+     * @param response
+     * @return
+     */
     @RequestMapping("/getCreditorlist")
     @ResponseBody
     public ServerResponse getCreditorlist(String dDebtNo, String token, String dDebtTransferredDateStart,
@@ -331,9 +347,10 @@ public class CreditorController {
         int limitnum = 20;
         int offsetN = Integer.valueOf(offsetnum);
         offsetN = (offsetN - 1) * limitnum;
-        mapOrg.put("offsetN", Integer.valueOf(offsetN));
-        mapOrg.put("limitnum", limitnum);
+        mapOrg.put("startIndex", Integer.valueOf(offsetN));
+        mapOrg.put("currentNum", limitnum);
 
+        //查询债权信息
         List<CreditorModel> data = creditorService.findCreditorByCondition(mapOrg);
         for (Iterator iterator = data.iterator(); iterator.hasNext(); ) {
             CreditorModel creditorModel = (CreditorModel) iterator.next();
@@ -355,6 +372,7 @@ public class CreditorController {
             }
         }
 //			logger.debug("债权查询结果" + data);
+        //查询债权统计信息
         List<Object[]> datasum = (List<Object[]>) creditorService.findCreditorBySum(mapOrg);
         Iterator datasumIterator = datasum.iterator();
         ArrayList<CreditorSumModel> datasumSecond = new ArrayList<CreditorSumModel>();
