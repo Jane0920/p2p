@@ -837,3 +837,267 @@ angular.module('AppController', [])
             };
             onload();
         })
+    // 撮合操作
+    // 待匹配资金队列
+    .controller(
+        'matchfundqueueCtrl',
+        function ($scope, $state, AuthService, PostService, hmd) {
+            var str = '';
+
+            $scope.totalItems = 0;
+            $scope.maxSize = 10;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = 20;
+            var manage_count = $('#manage_count');
+            var manage_sum = $('#manage_sum');
+            // 查询待匹配资金队列条件组装
+            function getDataByParams(pageNo) {
+                $scope.currentPage = pageNo;
+                var username = $('#username').val();
+                var button_query = $('#button_query');
+                var pSerialNo = $('#investserial').val();
+                var endDate = $('#endDate').val();
+                var productName = $('#productName').find(
+                    'option:selected').attr('value');
+                var investType = $('#investType').find(
+                    'option:selected').attr('value');
+                var str = 'userName=' + username + '&pSerialNo='
+                    + pSerialNo + '&endDate=' + endDate
+                    + '&productName=' + productName
+                    + '&investType=' + investType;
+
+                checkDataByPostService(str, pageNo);
+
+            }
+            ;
+            // 查询待匹配资金队列
+            function checkDataByPostService(param, page) {
+                PostService
+                    .selectWaitMoney(param + "&page=" + page)
+                    .success(
+                        function (response) {
+                            if (response.status == 1) {
+                                var data = response.data;
+                                $scope.userList = data.listMatch;
+                                $scope.totalItems = manage_count
+                                    .html().replace(/\s/g,
+                                        '');
+                                manage_count
+                                    .html(data.waitMatchCount.count);
+                                manage_sum
+                                    .html((+data.waitMatchCount.sum)
+                                        .toFixed(2));
+                            } else {
+                                hmd
+                                    .popupErrorInfo(response.status);
+                            }
+                        });
+
+            }
+            ;
+
+            function init_query() {
+                checkDataByPostService("", 1);
+            }
+
+            init_query();
+            $scope.queryData = getDataByParams(1);
+            // 开始匹配
+            $scope.startmatching = function () {
+                PostService.startMatchByManually().success(
+                    function (response) {
+                        hmd.popupErrorInfo(response.status);
+                    }).error(function (response) {
+                    hmd.popupErrorInfo(response.status);
+                });
+
+            };
+
+        })
+
+    // 待匹配债权队列
+    .controller(
+        'toMatch',
+        function ($scope, $state, $filter, AuthService, PostService,
+                  $window, hmd) {
+            $scope.totalItems = 0;
+            $scope.maxSize = 10;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = 20;
+            var token = AuthService.getToken();
+            // 待匹配资金队列查询
+            function toMatchRights() {
+                var selectNum = $("#select").val()
+                if (!$scope.markNum) {
+                    $scope.markNum = '';
+                }
+                if ($("#select").val() == '120') {
+                    selectNum = ''
+                }
+                var str = 'token=' + token + '&dDebtNo='
+                    + $scope.markNum + '&dDebtStatus=' + selectNum
+                    + '&offsetnum=' + $scope.currentPage;
+                PostService
+                    .toMatchRightsSearch(str)
+                    .success(
+                        function (response) {
+                            if (response.status == 1) {
+                                $scope.toMatch = response.data.date;
+                                $scope.totalItems = $scope.record = response.data.datasum[0].dIdCount
+                                $scope.enableTotle = response.data.datasum[0].dAvailableMoneySum
+                            } else {
+                                hmd
+                                    .popupErrorInfo(response.status);
+                            }
+                        });
+                $scope.str = str;
+            }
+
+            toMatchRights()
+            $scope.searchList = function () {
+                var rex = /^ZQNO\d+$/g;
+                $scope.markNum = $.trim($scope.markNum)
+                if ($scope.markNum == '') {
+                    toMatchRights();
+                } else if (!rex.test($scope.markNum)) {
+                    hmd.popupErrorInfo('标的编号不符合规则!', 'attention');
+                } else {
+                    toMatchRights();
+                }
+            }
+            // 分页
+            $scope.getData = function (msg) {
+                var selectNum = $("#select").val()
+                if (!$scope.markNum) {
+                    $scope.markNum = '';
+                }
+                if ($("#select").val() == '120') {
+                    selectNum = ''
+                }
+                var str = 'token=' + token + '&dDebtNo='
+                    + $scope.markNum + '&dDebtStatus=' + selectNum
+                    + '&offsetnum=' + msg;
+                PostService
+                    .toMatchRightsSearch(str)
+                    .success(
+                        function (response) {
+                            if (response.status == 1) {
+                                $scope.toMatch = response.data.date;
+                                $scope.totalItems = $scope.record = response.data.datasum[0].dIdCount
+                                $scope.enableTotle = response.data.datasum[0].dAvailableMoneySum
+                            } else {
+                                hmd
+                                    .popupErrorInfo(response.status);
+                            }
+                        });
+            }
+            // 文件导出
+            $scope.rightsOut = function () {
+                $scope.str = $scope.str.substring(0,
+                    $scope.str.length - 12)
+                PostService.toMatchRightsOut($scope.str)
+            }
+            // 待匹配资金队列查看
+            $scope.checkCredit = function (msg) {
+                $scope.weight = false;
+                var str = 'token=' + token + '&dDebtNo=' + msg
+                PostService.toMatchRights(str).success(
+                    function (response) {
+                        if (response.status == 1) {
+                            $scope.credit = response.data[0];
+                        } else {
+                            hmd.popupErrorInfo(response.status);
+                        }
+                    })
+            }
+            var dataweight = $scope.dataweight = {};
+            // 查看权重
+            $scope.checkWeight = function (id, value) {
+                $scope.weight = true;
+                for (var i = 0; i < $scope.toMatch.length; i++) {
+                    if (id == $scope.toMatch[i].cId) {
+                        dataweight.dDebtNo = $scope.toMatch[i].dDebtNo
+                        dataweight.cClaimsTypeName = $scope.toMatch[i].cClaimsTypeName;
+                        dataweight.dDebtTransferredMoney = $scope.toMatch[i].dDebtTransferredMoney;
+                        dataweight.cClaimsWeight = $scope.toMatch[i].cClaimsWeight
+                    }
+                }
+                dataweight.id = id;
+            }
+            // 更改权重
+            $scope.changeWeight = function () {
+                if (!$("#textarea").val()) {
+                    hmd.popupErrorInfo('请输入更改的权重值！', 'error');
+                } else if (!/^[0-9]*[1-9][0-9]*$/.test($("#textarea")
+                        .val())) {
+                    hmd.popupErrorInfo('权重值只能为正整数！', 'error')
+                    dataweight.cClaimsWeight = '';
+                } else {
+                    if ($scope.weight == true) {
+                        var str = 'token=' + token + '&cId='
+                            + dataweight.id + '&cClaimsWeight='
+                            + $("#textarea").val();
+                        PostService
+                            .updateRightsWeight(str)
+                            .success(
+                                function (response) {
+                                    if (response.status == 1) {
+                                        hmd
+                                            .popupErrorInfo(response.status);
+                                        dataweight.cClaimsWeight = '';
+                                        toMatchRights()
+                                    } else {
+                                        hmd
+                                            .popupErrorInfo(response.status);
+                                    }
+                                });
+                    }
+
+                }
+            }
+            // 退出队列
+            $scope.quitMember = function () {
+                var arr = [];
+                $scope.stopQuit = false;
+                $(".area_table tbody input[type='checkbox']")
+                    .each(
+                        function (index, element) {
+                            if ($(element).is(":checked") == true) {
+                                if ($(element)
+                                        .attr("data-text") !== '新借款'
+                                    || $(element).attr(
+                                        "data-status") !== '11403') {
+                                    hmd
+                                        .popupErrorInfo(
+                                            '只有债权状态为新借款并且为未匹配的才能退出队列！',
+                                            'error');
+                                    $scope.stopQuit = true
+                                }
+                                if (!$scope.stopQuit) {
+                                    arr.push($(element).val());
+                                }
+                            }
+                        });
+                if (!$scope.stopQuit) {
+                    if (arr.length > 0) {
+                        var str = 'token=' + token + '&dDebtNos='
+                            + arr.join(',');
+                        PostService
+                            .creditorQueueOut(str)
+                            .success(
+                                function (response) {
+                                    if (response.status == 1) {
+                                        hmd
+                                            .popupErrorInfo(response.status);
+                                        toMatchRights()
+                                    } else {
+                                        hmd
+                                            .popupErrorInfo(response.status);
+                                    }
+                                });
+                    } else {
+                        hmd.popupErrorInfo('请选择将要退出队列的数据！', 'error');
+                    }
+                }
+            }
+        })
