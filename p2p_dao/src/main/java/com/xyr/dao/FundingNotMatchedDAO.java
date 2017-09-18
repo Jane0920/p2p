@@ -2,6 +2,7 @@ package com.xyr.dao;
 
 import com.xyr.domain.FundingNotMatchedModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -13,5 +14,13 @@ public interface FundingNotMatchedDAO extends JpaRepository<FundingNotMatchedMod
 
     @Query("select fm from FundingNotMatchedModel fm where fm.fIsLocked = 10901")
     List<FundingNotMatchedModel> findByMatch();
+
+    @Modifying
+    @Query("update FundingNotMatchedModel set fNotMatchedMoney = 0, fIsLocked = 10905")
+    void updateAllMatch();
+
+    @Modifying
+    @Query("update FundingNotMatchedModel set fNotMatchedMoney = 0, fIsLocked = 10905 where fId = ?1")
+    void updateStatus(int fid);
 
 }
