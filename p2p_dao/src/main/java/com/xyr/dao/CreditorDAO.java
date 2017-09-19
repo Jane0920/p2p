@@ -20,7 +20,7 @@ public interface CreditorDAO extends JpaRepository<CreditorModel, Integer> {
     void updateAllMatch();
 
     @Modifying
-    @Query("update CreditorModel set matchedStatus = 11402 where id = ?1")
-    void updateStatus(int id);
+    @Query("update CreditorModel set matchedStatus = ?1, availableMoney= ?2 where id = ?3")
+    void updateStatus(int status, double money, int id);
 
 }

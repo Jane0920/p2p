@@ -60,9 +60,12 @@ public class MatchServiceImpl implements MatchService {
                 }
             }
             // 修改所有债权队列中债权的信息
-
+            updateCreditorStatus(creditors);
+            // 移除掉资金队列中的部分，invests中剩下的就是已经完全匹配了的
+            invests.removeAll(fnms);
+            updateInvestStatus(invests);
             // 修改剩余资金队列中资金信息
-
+            updateNoMatchInvest(fnms);
         } else if (investMoney.compareTo(creditorMoney) < 0) { //资金小于债权
             while (!fnms.isEmpty()) { //只要资金队列不为空就一直循环
                 FundingNotMatchedModel fnm = fnms.poll(); //从资金队列中获取一个元素
@@ -82,42 +85,73 @@ public class MatchServiceImpl implements MatchService {
             // 修改剩余债权队列中债权信息
             creditors.removeAll(cms);
             updateCreditorStatus(creditors);
-            updateNotMatchCreditor(cms,creditors);
+            updateNotMatchCreditor(cms);
         } else { //资金等于债权
-
+            // 修改所有资金队列中资金信息
+            updateInvestStatus(invests);
+            // 修改所有债权队列中债权的信息
+            updateCreditorStatus(creditors);
         }
 
     }
 
-
+    /**
+     * 更新已完全匹配的债权
+     *
+     * @param cms
+     */
     private void updateCreditorStatus(List<CreditorModel> cms) {
         for (CreditorModel cm: cms) {
-            creditorDAO.updateStatus(cm.getId());
+            creditorDAO.updateStatus(11402, 0.0, cm.getId());
         }
     }
 
+    /**
+     * 更新已完全匹配的资金
+     * @param fnms
+     */
     private void updateInvestStatus(List<FundingNotMatchedModel> fnms) {
         for (FundingNotMatchedModel fnm: fnms) {
-            fundingNotMatchedDAO.updateStatus(fnm.getfId());
+            fundingNotMatchedDAO.updateStatus(0.0, 10905, fnm.getfId());
         }
     }
 
-    // 修改债权队列中信息
-    private void updateNotMatchCreditor(LinkedList<CreditorModel> cms,List<CreditorModel> creditors) {
+    /**
+     * 修改债权队列中信息
+     *
+     * @param cms
+     */
+    private void updateNotMatchCreditor(LinkedList<CreditorModel> cms) {
         //修改剩余数据
         for (CreditorModel cm : cms) {
             CreditorModel _cm = creditorDAO.getOne(cm.getId());
-            if(_cm.getAvailableMoney()==cm.getAvailableMoney()){
-                //相等
-                _cm.setMatchedStatus(11403);
-            }else{
-                //不等
-                _cm.setMatchedStatus(11401);
-                _cm.setAvailableMoney(cm.getAvailableMoney());
+            if(_cm.getAvailableMoney()==cm.getAvailableMoney()) {
+                //相等 表示未匹配
+                creditorDAO.updateStatus(11401, cm.getAvailableMoney(), cm.getId());
+            } else {
+                //不等 表示部分匹配
+                creditorDAO.updateStatus(11403, cm.getAvailableMoney(), cm.getId());
             }
 
         }
 
+    }
+
+    /**
+     * 修改资金队列中的信息
+     *
+     * @param fnms
+     * @return
+     */
+    private void updateNoMatchInvest(LinkedList<FundingNotMatchedModel> fnms) {
+        for (FundingNotMatchedModel fnm : fnms) {
+            FundingNotMatchedModel _fnm = fundingNotMatchedDAO.getOne(fnm.getfId());
+            if (_fnm.getfNotMatchedMoney() == fnm.getfNotMatchedMoney()) {
+                fundingNotMatchedDAO.updateStatus(fnm.getfNotMatchedMoney(), 10901, fnm.getfId());
+            } else {
+                fundingNotMatchedDAO.updateStatus(fnm.getfNotMatchedMoney(), 10905, fnm.getfId());
+            }
+        }
     }
 
     private BigDecimal getCreditor(List<CreditorModel> creditors) {

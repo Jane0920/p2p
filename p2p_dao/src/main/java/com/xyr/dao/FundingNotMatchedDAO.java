@@ -20,7 +20,7 @@ public interface FundingNotMatchedDAO extends JpaRepository<FundingNotMatchedMod
     void updateAllMatch();
 
     @Modifying
-    @Query("update FundingNotMatchedModel set fNotMatchedMoney = 0, fIsLocked = 10905 where fId = ?1")
-    void updateStatus(int fid);
+    @Query("update FundingNotMatchedModel set fNotMatchedMoney = ?1, fIsLocked = ?2 where fId = ?3")
+    void updateStatus(double money, int isLcked, int fid);
 
 }
